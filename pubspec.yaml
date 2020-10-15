@@ -41,6 +41,7 @@ dependencies:
   flushbar: ^1.5.0
   flutter_greetings: ^1.0.1
   slide_digital_clock: ^1.0.0
+  eva_icons_flutter: ^2.0.1
 
 dev_dependencies:
   flutter_test:
