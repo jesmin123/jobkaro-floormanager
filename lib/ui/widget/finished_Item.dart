@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:job_karo_floor_manager/constants/app_font_style.dart';
 import 'package:job_karo_floor_manager/constants/colors.dart';
 import 'package:job_karo_floor_manager/constants/dimen.dart';
+import 'package:line_icons/line_icons.dart';
 
 
 class FinishedItem extends StatefulWidget {
@@ -22,9 +23,9 @@ class _FinishedItemState extends State<FinishedItem> {
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('25-06-2020',style: AppFontStyle.regularHeadingTextStyle(APP_BLACK_COLOR),),
+                Text('25-06-2020',style: AppFontStyle.regularTextStyle(APP_BLACK_COLOR),),
                 SizedBox(width:4),
-                Icon(EvaIcons.arrowCircleRightOutline,size: ICON_SIZE,color: APP_BLACK_COLOR,)
+                Icon(LineIcons.arrow_circle_o_right, size: ICON_SIZE,color: APP_BLACK_COLOR,)
               ],
             )
           ),

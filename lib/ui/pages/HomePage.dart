@@ -126,7 +126,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               ),
               decoration: BoxDecoration(
                   color: Colors.green,
-                  image: DecorationImage(image: CachedNetworkImageProvider('http://restaurants.unicomerp.net/images/Restaurant/1010000001.jpg'),fit:  BoxFit.cover)
+                  image: DecorationImage(image: CachedNetworkImageProvider('image.png'),fit:  BoxFit.cover)
               ),
             ),
             ListTile(

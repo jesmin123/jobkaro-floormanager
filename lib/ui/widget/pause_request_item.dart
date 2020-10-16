@@ -1,9 +1,8 @@
-
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:job_karo_floor_manager/constants/app_font_style.dart';
 import 'package:job_karo_floor_manager/constants/colors.dart';
 import 'package:job_karo_floor_manager/constants/dimen.dart';
+import 'package:line_icons/line_icons.dart';
 
 class PauseRequestItem extends StatefulWidget {
   @override
@@ -22,11 +21,11 @@ class _PauseRequestItemState extends State<PauseRequestItem> {
             trailing:  Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(EvaIcons.phoneCallOutline, size: ICON_SIZE ,color: APP_BLACK_COLOR),
+                Icon(LineIcons.phone, size: ICON_SIZE ,color: APP_BLACK_COLOR),
                 SizedBox(width: LINE_HEIGHT),
-                Icon(EvaIcons.playCircleOutline, size: ICON_SIZE, color: APP_BLACK_COLOR),
+                Icon(LineIcons.play, size: ICON_SIZE, color: APP_BLACK_COLOR),
                 SizedBox(width: LINE_HEIGHT),
-                Icon(EvaIcons.pauseCircleOutline, size: ICON_SIZE ,color: APP_BLACK_COLOR),
+                Icon(LineIcons.pause, size: ICON_SIZE ,color: APP_BLACK_COLOR),
                 SizedBox(width: LINE_HEIGHT),
               ],
             ),
