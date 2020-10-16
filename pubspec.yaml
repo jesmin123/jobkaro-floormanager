@@ -42,6 +42,8 @@ dependencies:
   flutter_greetings: ^1.0.1
   slide_digital_clock: ^1.0.0
   eva_icons_flutter: ^2.0.1
+  step_progress_indicator: ^0.2.4+7
+  line_icons: ^0.2.0
 
 dev_dependencies:
   flutter_test:
