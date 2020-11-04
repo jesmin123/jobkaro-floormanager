@@ -5,3 +5,4 @@ const BORDER_WIDTH = 0.6;
 const BORDER_RADIUS = 8.0;
 const ICON_SIZE = 32.0;
 const THICKNESS = 0.5;
+const LICON_SIZE = 64.0;

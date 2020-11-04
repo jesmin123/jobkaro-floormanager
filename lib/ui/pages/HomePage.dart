@@ -6,6 +6,7 @@ import 'package:flutter_greetings/flutter_greetings.dart';
 import 'package:job_karo_floor_manager/provider/job_card_provider.dart';
 import 'package:job_karo_floor_manager/provider/notification_provider.dart';
 import 'package:job_karo_floor_manager/provider/user_provider.dart';
+import 'package:job_karo_floor_manager/ui/tab_views/addnew_tab.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:slide_digital_clock/slide_digital_clock.dart';
@@ -15,7 +16,7 @@ import '../../constants/strings.dart';
 import '../tab_views/assigned_tab.dart';
 import '../tab_views/finished_tab.dart';
 import '../tab_views/pause_request_tab.dart';
-import '../tab_views/pending_tab.dart';
+import '../tab_views/addnew_tab.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -148,7 +149,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           Expanded(
             child: TabBarView(
                 children: [
-                PendingTab(),
+                AddnewTab(),
                 AssignedTab(),
                 PauseRequestTab(),
                 FinishedTab()

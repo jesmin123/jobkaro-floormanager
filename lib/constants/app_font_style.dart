@@ -66,4 +66,15 @@ class AppFontStyle{
     );
   }
 
+
+  static TextStyle labelTextStyle2(Color color, {num textSize}) {
+    return TextStyle(
+        color: color,
+        fontSize: 16,
+        fontWeight: FontWeight.w400,
+        fontFamily: "Exo"
+    );
+  }
+
 }
+
