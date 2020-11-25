@@ -11,7 +11,7 @@ class ApiUtils {
   ApiUtils.internal();
 
   factory ApiUtils() => _instance;
-  static final baseUrl = "http://13.234.53.184/testmobappapis/api/test/";
+  static final baseUrl = "http://webartistictech.com/popular_technician/mobile/floor_controller/v1/get_details.php";
 
   Future<RespObj> getData(String route,{String header}) async{
     Map<String, String> mHeaders = {"Content-type": "application/json","x-auth-token":header};
@@ -20,13 +20,13 @@ class ApiUtils {
       print(json.decode(response.body));
       if(response.statusCode==200){
         print(json.decode(response.body));
-        return RespObj(true,data: jsonDecode(response.body));
+        return RespObj.fromJSON(json.decode(response.body));
       }else{
-        return RespObj(false,msg: response.body);
+        return RespObj.fromJSON(json.decode(response.body));
       }
     }catch(ex){
       print("Exception e :"+ex.toString());
-      return RespObj(false,msg: 'Server Unavailable');
+      return RespObj("0",msg: 'Server Unavailable');
     }
 
   }
@@ -38,11 +38,11 @@ class ApiUtils {
     if(response.statusCode==200){
       return RespObj.fromJSON(json.decode(response.body));
     }else{
-      return RespObj(false,msg: response.body);
+      return RespObj.fromJSON(json.decode(response.body));
     }
     }catch(e){
       print(e.toString());
-      return RespObj(false,msg: 'Server Unavailable');
+      return RespObj("0",msg: 'Server Unavailable');
     }
   }
 

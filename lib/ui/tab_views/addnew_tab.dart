@@ -9,12 +9,30 @@ class AddnewTab extends StatefulWidget {
   _AddnewTabState createState() => _AddnewTabState();
 }
 
+
+
+
 class _AddnewTabState extends State<AddnewTab> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
            children: [
+             Padding(
+               padding: const EdgeInsets.all(12.0),
+               child: TextFormField(
+                 decoration: InputDecoration(
+                     focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
+                   enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
+                   hintText: 'Search by car No.',
+                   prefixIcon: Icon(Icons.search),
+                   contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+
+
+                 ),
+
+               ),
+             ),
              AddNewItem(),
            ],
       ),

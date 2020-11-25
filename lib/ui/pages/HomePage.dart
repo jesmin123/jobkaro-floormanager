@@ -53,7 +53,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       appBar: AppBar(
         backgroundColor: PRIMARY_COLOR,
         elevation: 0,
-        leading: Icon(LineAwesomeIcons.bars,color: APP_WHITE_COLOR,),
+        leading: IconButton(icon: Icon(LineAwesomeIcons.bars, color: APP_WHITE_COLOR,),onPressed: ()=>showDrawer(context)),
         actions: [
           IconButton(icon: Icon(LineAwesomeIcons.bell,color: APP_WHITE_COLOR,),onPressed: ()=>showDrawer(context),)
         ],
@@ -118,17 +118,26 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
-            DrawerHeader(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  IconButton(icon: Icon(LineAwesomeIcons.close,color: Colors.white,), onPressed: ()=>closeDrawer(context)),
-                ],
+            Container(
+              height: 240,
+              child: DrawerHeader(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    IconButton(icon: Icon(LineAwesomeIcons.close,color: Colors.white,), onPressed: ()=>closeDrawer(context)),
+                  ],
+                ),
+                decoration: BoxDecoration(
+                    color: Colors.green,
+                    image: DecorationImage(image: CachedNetworkImageProvider('https://www.adbasis.com/images/divita-a65623c8.jpg'),fit:  BoxFit.cover)
+                ),
               ),
-              decoration: BoxDecoration(
-                  color: Colors.green,
-                  image: DecorationImage(image: CachedNetworkImageProvider('image.png'),fit:  BoxFit.cover)
-              ),
+            ),
+            Column(
+              children: [
+                Text('Ravi Kumar', style: AppFontStyle.headingTextStyle(PRIMARY_COLOR, textSize: 20.0),),
+                Text('Field Manager', style: AppFontStyle.labelTextStyle3(APP_GREY_COLOR),)
+              ],
             ),
             ListTile(
                 leading: Icon(LineAwesomeIcons.lock),

@@ -4,16 +4,35 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 class UserModel{
+  String id;
   String firstName;
   String lastName;
-  String mobNo;
+  String name;
+  String mobile;
+  String address;
+  String branchId;
+  String empCode;
+  String gender;
   String role;
   String empId;
   String imgUrl;
+  String loggedIn;
 
 
-  UserModel({this.firstName, this.lastName, this.mobNo, this.role, this.empId,
-      this.imgUrl});
+  UserModel({
+      this.id,
+      this.firstName,
+      this.lastName,
+      this.name,
+      this.mobile,
+      this.address,
+      this.branchId,
+      this.empCode,
+      this.gender,
+      this.role,
+      this.empId,
+      this.imgUrl,
+      this.loggedIn});
 
   void splitNames(String name){
     this.firstName = name.split(" ")[0];
@@ -26,14 +45,13 @@ class UserModel{
       return firstName+lastName;
   }
 
+
   factory UserModel.fromJSON(Map<String,dynamic> json){
     try{
-      return UserModel(firstName: json['firstName'],lastName: json['lastName'],empId: json['empId'],imgUrl: json['imgUrl'],mobNo: json['mobNo'],role: json['role'],);
+      return UserModel(id: json['id'],branchId: json['branchId'],name: json['name'],empId: json['empId'],gender: json['gender'],mobile: json['mobile'],address: json['address'],);
     }catch(ex){
       debugPrint(ex.toString());
-      Map<String,dynamic> json = fetchFromDummy();
-      return UserModel(firstName: json['firstName'],lastName: json['lastName'],empId: json['empId'],imgUrl: json['imgUrl'],mobNo: json['mobNo'],role: json['role'],);
-
+     return null;
     }
   }
 

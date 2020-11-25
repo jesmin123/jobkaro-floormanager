@@ -3,6 +3,8 @@ import 'package:job_karo_floor_manager/provider/job_card_provider.dart';
 import 'package:job_karo_floor_manager/provider/notification_provider.dart';
 import 'package:job_karo_floor_manager/provider/user_provider.dart';
 import 'package:job_karo_floor_manager/ui/pages/HomePage.dart';
+import 'package:job_karo_floor_manager/ui/pages/job_details_page.dart';
+import 'package:job_karo_floor_manager/ui/pages/login_page.dart';
 import 'package:provider/provider.dart';
 import './constants/strings.dart';
 
@@ -14,6 +16,8 @@ class MyApp extends StatelessWidget {
 
   final routes = <String,WidgetBuilder>{
       HOME_PAGE: (context)=> HomePage(),
+      JOB_DETAILS_PAGE :(context)=> JobDetailsPage(),
+      LOGIN_PAGE:(context)=>LoginPage()
   };
 
   @override
@@ -32,7 +36,7 @@ class MyApp extends StatelessWidget {
         ),
         routes: routes,
         debugShowCheckedModeBanner: false,
-        initialRoute: HOME_PAGE,
+        initialRoute: LOGIN_PAGE,
       ),
     );
   }

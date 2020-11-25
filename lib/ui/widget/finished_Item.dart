@@ -1,4 +1,4 @@
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+
 import 'package:flutter/material.dart';
 import 'package:job_karo_floor_manager/constants/app_font_style.dart';
 import 'package:job_karo_floor_manager/constants/colors.dart';
@@ -23,9 +23,9 @@ class _FinishedItemState extends State<FinishedItem> {
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('25-06-2020',style: AppFontStyle.regularTextStyle(APP_BLACK_COLOR),),
-                SizedBox(width:4),
-                Icon(LineIcons.arrow_circle_o_right, size: ICON_SIZE,color: APP_BLACK_COLOR,)
+                Text('25-06-2020',style: AppFontStyle.labelTextStyle2(APP_BLACK_COLOR),),
+                SizedBox(width:LINE_HEIGHT),
+                IconButton(onPressed: (){},icon: Icon(LineIcons.arrow_circle_o_right))
               ],
             )
           ),
