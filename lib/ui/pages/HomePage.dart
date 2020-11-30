@@ -142,7 +142,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             Column(
               children: [
                 Text(userProvider.user.name, style: AppFontStyle.headingTextStyle(PRIMARY_COLOR, textSize: 20.0),),
-                Text('Field Manager', style: AppFontStyle.labelTextStyle3(APP_GREY_COLOR),)
+                Text('Field Manager', style: AppFontStyle.labelTextStyle3(APP_GREY_COLOR),),
+                Text('Emp Code :'+ userProvider.user.empCode, style: AppFontStyle.labelTextStyle3(APP_GREY_COLOR),),
+                Text('Mobile No :'+ userProvider.user.mobile, style: AppFontStyle.labelTextStyle3(APP_GREY_COLOR),),
               ],
             ),
             ListTile(
