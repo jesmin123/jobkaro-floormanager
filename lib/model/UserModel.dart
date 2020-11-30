@@ -17,6 +17,7 @@ class UserModel{
   String empId;
   String imgUrl;
   String loggedIn;
+  String jwt;
 
 
   UserModel({
@@ -32,7 +33,9 @@ class UserModel{
       this.role,
       this.empId,
       this.imgUrl,
-      this.loggedIn});
+      this.loggedIn,
+      this.jwt
+  });
 
   void splitNames(String name){
     this.firstName = name.split(" ")[0];
@@ -45,13 +48,12 @@ class UserModel{
       return firstName+lastName;
   }
 
-
-  factory UserModel.fromJSON(Map<String,dynamic> json){
+  factory UserModel.fromJSON(Map<String,dynamic> json,){
     try{
-      return UserModel(id: json['id'],branchId: json['branchId'],name: json['name'],empId: json['empId'],gender: json['gender'],mobile: json['mobile'],address: json['address'],);
+      return UserModel(id: json['id'], branchId: json['branch_id'], name: json['name'],empCode: json['emp_code'],gender: json['gender'],mobile: json['mobile'],address: json['address'],jwt: json['Jwt']);
     }catch(ex){
       debugPrint(ex.toString());
-     return null;
+      return null;
     }
   }
 

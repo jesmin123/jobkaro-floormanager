@@ -3,11 +3,22 @@ import 'package:flutter/material.dart';
 
 class TaskModel{
   int status;
-  String task;
   String name;
+  String id;
   TimeOfDay elaspedTime;
-  TimeOfDay allocatedTime;
+  String minute;
 
-  TaskModel(
-      this.status, this.task, this.name, this.elaspedTime, this.allocatedTime);
+  TaskModel({
+      this.status, this.id, this.name, this.elaspedTime, this.minute,});
+
+  factory TaskModel.fromJSON(Map<String, dynamic>json){
+   try {
+     return TaskModel(name: json['name'], minute: json['minute'], id: json['id']);
+   }
+   catch (ex) {
+     debugPrint(ex.toString());
+     return null;
+   }
+  }
+
 }

@@ -34,17 +34,17 @@ class _AssignedItemState extends State<AssignedItem> {
           totalSteps: 100,
           currentStep: 80,
           selectedColor: PRIMARY_COLOR,
-          stepSize: 5,
+          stepSize: 3,
           unselectedColor: APP_GREY_COLOR,
           padding: 0,
-          width:50,
-          height: 50,
-            child: Center(child: Text('80%',)),
+          width:45,
+          height: 45,
+            child: Center(child: Text('80%', style: AppFontStyle.labelTextStyle3(APP_BLACK_COLOR),)),
           selectedStepSize: 4,
           roundedCap: (_, __) => true,
         ),
             SizedBox(width:16),
-            Icon(LineIcons.arrow_circle_o_right,size: ICON_SIZE,color: APP_BLACK_COLOR,)
+            Icon(Icons.arrow_forward_rounded,size: ICON_SIZE,color: PRIMARY_COLOR,)
           ],
         )
     );

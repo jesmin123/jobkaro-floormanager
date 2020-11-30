@@ -25,7 +25,7 @@ class _FinishedItemState extends State<FinishedItem> {
               children: [
                 Text('25-06-2020',style: AppFontStyle.labelTextStyle2(APP_BLACK_COLOR),),
                 SizedBox(width:LINE_HEIGHT),
-                IconButton(onPressed: (){},icon: Icon(LineIcons.arrow_circle_o_right))
+                IconButton(onPressed: (){},icon: Icon(Icons.arrow_forward_rounded,size: ICON_SIZE,color: PRIMARY_COLOR,))
               ],
             )
           ),

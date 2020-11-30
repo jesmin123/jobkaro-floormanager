@@ -33,7 +33,6 @@ dependencies:
   path_provider: ^1.6.14
   line_awesome_icons: ^1.0.4+2
   carousel_slider: ^2.2.1
-  fluttertoast: ^7.0.2
   provider: ^4.3.2+1
   shared_preferences: ^0.5.10
   cached_network_image: ^2.0.0
@@ -45,6 +44,8 @@ dependencies:
   step_progress_indicator: ^0.2.4+7
   line_icons: ^0.2.0
   form_field_validator: ^1.0.1
+  fluttertoast: ^7.0.2
+  progress_dialog: ^1.2.0
 
 dev_dependencies:
   flutter_test:

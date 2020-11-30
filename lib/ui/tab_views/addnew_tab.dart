@@ -8,10 +8,6 @@ class AddnewTab extends StatefulWidget {
   @override
   _AddnewTabState createState() => _AddnewTabState();
 }
-
-
-
-
 class _AddnewTabState extends State<AddnewTab> {
   @override
   Widget build(BuildContext context) {

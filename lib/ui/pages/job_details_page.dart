@@ -64,7 +64,6 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                                   ],
                                 );
                               }else{
-
                                 return JobDetailsWidget();
                               }
                             }

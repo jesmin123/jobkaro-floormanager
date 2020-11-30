@@ -32,13 +32,14 @@ class ApiUtils {
   }
 
   Future<RespObj> postData(String route,{String mBody,String header}) async{
-    Map<String, String> mHeaders = {"Content-Type": "application/json","x-auth-token":header};
+    Map<String, String> mHeaders = {"Content-Type": "application/json","Jwt":header};
     try{
     Response response = await post(baseUrl+route,headers: mHeaders,body: mBody);
     if(response.statusCode==200){
       return RespObj.fromJSON(json.decode(response.body));
     }else{
-      return RespObj.fromJSON(json.decode(response.body));
+      return RespObj("0",msg: 'Server Unavailable');
+
     }
     }catch(e){
       print(e.toString());

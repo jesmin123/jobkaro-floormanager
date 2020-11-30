@@ -22,5 +22,6 @@ const MARK_COMPLETED = 'Mark Completed';
 const OVER_TIME ='Overtime';
 const USERID ='User ID';
 const PASSWORD ='Passsword';
+const TECHNICIAN ='Technician';
 
 

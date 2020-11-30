@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_greetings/flutter_greetings.dart';
+import 'package:job_karo_floor_manager/constants/dimen.dart';
 import 'package:job_karo_floor_manager/provider/job_card_provider.dart';
 import 'package:job_karo_floor_manager/provider/notification_provider.dart';
 import 'package:job_karo_floor_manager/provider/user_provider.dart';
@@ -32,6 +33,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   @override
   void initState() {
     super.initState();
+    getSupportingData();
     _tabController = new TabController(vsync: this, length:4);
   }
 
@@ -42,20 +44,24 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     final JobCardProvider jobCardProvider = Provider.of(context,listen: false);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-
+      jobCardProvider.initData(userProvider);
     });
   }
 
   @override
   Widget build(BuildContext context) {
+
+    final UserProvider userProvider = Provider.of(context);
+    final JobCardProvider jobCardProvider = Provider.of(context);
+
     return Scaffold(
       key: _drawerKey,
       appBar: AppBar(
         backgroundColor: PRIMARY_COLOR,
         elevation: 0,
-        leading: IconButton(icon: Icon(LineAwesomeIcons.bars, color: APP_WHITE_COLOR,),onPressed: ()=>showDrawer(context)),
+        leading: IconButton(icon: Icon(LineAwesomeIcons.bars, color: APP_WHITE_COLOR,size: ICON_SIZE,),onPressed: ()=>showDrawer(context)),
         actions: [
-          IconButton(icon: Icon(LineAwesomeIcons.bell,color: APP_WHITE_COLOR,),onPressed: ()=>showDrawer(context),)
+          IconButton(icon: Icon(LineAwesomeIcons.bell,color: APP_WHITE_COLOR,size: ICON_SIZE,),onPressed: ()=>showDrawer(context),)
         ],
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(124),
@@ -72,7 +78,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                       text: TextSpan(
                         children: [
                           TextSpan(text:YonoGreetings.showGreetings()+", \n",style: AppFontStyle.regularTextStyle(APP_BLACK_COLOR)),
-                          TextSpan(text:' \t \t  \t Jonathan',style: AppFontStyle.regularHeadingTextStyle(APP_WHITE_COLOR)),
+                          TextSpan(text:' \t \t  \t ' + userProvider.user.name,style: AppFontStyle.regularHeadingTextStyle(APP_WHITE_COLOR)),
                         ]
                       ),
                     ),
@@ -124,7 +130,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    IconButton(icon: Icon(LineAwesomeIcons.close,color: Colors.white,), onPressed: ()=>closeDrawer(context)),
+                    IconButton(icon: Icon(Icons.close,size: ICON_SIZE,color: Colors.white,), onPressed: ()=>closeDrawer(context)),
                   ],
                 ),
                 decoration: BoxDecoration(
@@ -135,17 +141,17 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             ),
             Column(
               children: [
-                Text('Ravi Kumar', style: AppFontStyle.headingTextStyle(PRIMARY_COLOR, textSize: 20.0),),
+                Text(userProvider.user.name, style: AppFontStyle.headingTextStyle(PRIMARY_COLOR, textSize: 20.0),),
                 Text('Field Manager', style: AppFontStyle.labelTextStyle3(APP_GREY_COLOR),)
               ],
             ),
             ListTile(
-                leading: Icon(LineAwesomeIcons.lock),
+                leading: Icon(LineAwesomeIcons.lock ,size: ICON_SIZE,),
                 title: Text('Change Password'),
                 onTap: ()=>logOut()
             ),
             ListTile(
-                leading: Icon(LineAwesomeIcons.sign_out),
+                leading: Icon(LineAwesomeIcons.sign_out, size: ICON_SIZE),
                 title: Text('Logout'),
                 onTap: ()=>logOut()
             ),
