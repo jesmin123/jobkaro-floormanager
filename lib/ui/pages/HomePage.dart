@@ -150,12 +150,50 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             ListTile(
                 leading: Icon(LineAwesomeIcons.lock ,size: ICON_SIZE,),
                 title: Text('Change Password'),
-                onTap: ()=>logOut()
+                onTap: (){
+                  Navigator.pushNamed(context, CHANGE_PASSWORD_PAGE);
+                }
             ),
             ListTile(
                 leading: Icon(LineAwesomeIcons.sign_out, size: ICON_SIZE),
                 title: Text('Logout'),
-                onTap: ()=>logOut()
+                onTap: (){
+                  return showDialog(
+                      context: context,
+                      builder: (BuildContext context){
+                        return AlertDialog(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                          title: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text("Loging Out", style: AppFontStyle.headingTextStyle(APP_BLACK_COLOR),),
+                              SizedBox(height: LINE_HEIGHT*0.5,),
+                              Text("Are you sure you want to log out?", style: AppFontStyle.labelTextStyle(APP_BLACK_COLOR), textAlign: TextAlign.center,),
+                              Divider(),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  FlatButton(
+                                      onPressed: (){
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text("Cancel", style: AppFontStyle.headingTextStyle(PRIMARY_COLOR,textSize: 16.0),)
+                                  ),
+                                  VerticalDivider(width: 25,thickness: 16,),
+                                  FlatButton(
+                                      onPressed: (){
+                                        Navigator.pushNamed(context, LOGIN_PAGE);
+                                      },
+                                      child: Text("Yes", style: AppFontStyle.headingTextStyle(PRIMARY_COLOR, textSize: 16.0),)
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        );
+                      }
+                  );
+                }
             ),
 
           ],
