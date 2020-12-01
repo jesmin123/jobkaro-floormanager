@@ -3,9 +3,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_greetings/flutter_greetings.dart';
+import 'package:job_karo_floor_manager/constants/dimen.dart';
 import 'package:job_karo_floor_manager/provider/job_card_provider.dart';
 import 'package:job_karo_floor_manager/provider/notification_provider.dart';
 import 'package:job_karo_floor_manager/provider/user_provider.dart';
+import 'package:job_karo_floor_manager/ui/tab_views/addnew_tab.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:slide_digital_clock/slide_digital_clock.dart';
@@ -15,7 +17,7 @@ import '../../constants/strings.dart';
 import '../tab_views/assigned_tab.dart';
 import '../tab_views/finished_tab.dart';
 import '../tab_views/pause_request_tab.dart';
-import '../tab_views/pending_tab.dart';
+import '../tab_views/addnew_tab.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -31,6 +33,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   @override
   void initState() {
     super.initState();
+    getSupportingData();
     _tabController = new TabController(vsync: this, length:4);
   }
 
@@ -41,20 +44,24 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     final JobCardProvider jobCardProvider = Provider.of(context,listen: false);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-
+      jobCardProvider.initData(userProvider);
     });
   }
 
   @override
   Widget build(BuildContext context) {
+
+    final UserProvider userProvider = Provider.of(context);
+    final JobCardProvider jobCardProvider = Provider.of(context);
+
     return Scaffold(
       key: _drawerKey,
       appBar: AppBar(
         backgroundColor: PRIMARY_COLOR,
         elevation: 0,
-        leading: Icon(LineAwesomeIcons.bars,color: APP_WHITE_COLOR,),
+        leading: IconButton(icon: Icon(LineAwesomeIcons.bars, color: APP_WHITE_COLOR,size: ICON_SIZE,),onPressed: ()=>showDrawer(context)),
         actions: [
-          IconButton(icon: Icon(LineAwesomeIcons.bell,color: APP_WHITE_COLOR,),onPressed: ()=>showDrawer(context),)
+          IconButton(icon: Icon(LineAwesomeIcons.bell,color: APP_WHITE_COLOR,size: ICON_SIZE,),onPressed: ()=>showDrawer(context),)
         ],
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(124),
@@ -71,7 +78,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                       text: TextSpan(
                         children: [
                           TextSpan(text:YonoGreetings.showGreetings()+", \n",style: AppFontStyle.regularTextStyle(APP_BLACK_COLOR)),
-                          TextSpan(text:' \t \t  \t Jonathan',style: AppFontStyle.regularHeadingTextStyle(APP_WHITE_COLOR)),
+                          TextSpan(text:' \t \t  \t ' + userProvider.user.name,style: AppFontStyle.regularHeadingTextStyle(APP_WHITE_COLOR)),
                         ]
                       ),
                     ),
@@ -117,27 +124,76 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
-            DrawerHeader(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  IconButton(icon: Icon(LineAwesomeIcons.close,color: Colors.white,), onPressed: ()=>closeDrawer(context)),
-                ],
-              ),
-              decoration: BoxDecoration(
-                  color: Colors.green,
-                  image: DecorationImage(image: CachedNetworkImageProvider('image.png'),fit:  BoxFit.cover)
+            Container(
+              height: 240,
+              child: DrawerHeader(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    IconButton(icon: Icon(Icons.close,size: ICON_SIZE,color: Colors.white,), onPressed: ()=>closeDrawer(context)),
+                  ],
+                ),
+                decoration: BoxDecoration(
+                    color: Colors.green,
+                    image: DecorationImage(image: CachedNetworkImageProvider('https://www.adbasis.com/images/divita-a65623c8.jpg'),fit:  BoxFit.cover)
+                ),
               ),
             ),
+            Column(
+              children: [
+                Text(userProvider.user.name, style: AppFontStyle.headingTextStyle(PRIMARY_COLOR, textSize: 20.0),),
+                Text('Field Manager', style: AppFontStyle.labelTextStyle3(APP_GREY_COLOR),),
+                Text('Emp Code :'+ userProvider.user.empCode, style: AppFontStyle.labelTextStyle3(APP_GREY_COLOR),),
+                Text('Mobile No :'+ userProvider.user.mobile, style: AppFontStyle.labelTextStyle3(APP_GREY_COLOR),),
+              ],
+            ),
             ListTile(
-                leading: Icon(LineAwesomeIcons.lock),
+                leading: Icon(LineAwesomeIcons.lock ,size: ICON_SIZE,),
                 title: Text('Change Password'),
-                onTap: ()=>logOut()
+                onTap: (){
+                  Navigator.pushNamed(context, CHANGE_PASSWORD_PAGE);
+                }
             ),
             ListTile(
-                leading: Icon(LineAwesomeIcons.sign_out),
+                leading: Icon(LineAwesomeIcons.sign_out, size: ICON_SIZE),
                 title: Text('Logout'),
-                onTap: ()=>logOut()
+                onTap: (){
+                  return showDialog(
+                      context: context,
+                      builder: (BuildContext context){
+                        return AlertDialog(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                          title: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text("Loging Out", style: AppFontStyle.headingTextStyle(APP_BLACK_COLOR),),
+                              SizedBox(height: LINE_HEIGHT*0.5,),
+                              Text("Are you sure you want to log out?", style: AppFontStyle.labelTextStyle(APP_BLACK_COLOR), textAlign: TextAlign.center,),
+                              Divider(),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  FlatButton(
+                                      onPressed: (){
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text("Cancel", style: AppFontStyle.headingTextStyle(PRIMARY_COLOR,textSize: 16.0),)
+                                  ),
+                                  VerticalDivider(width: 25,thickness: 16,),
+                                  FlatButton(
+                                      onPressed: (){
+                                        Navigator.pushNamed(context, LOGIN_PAGE);
+                                      },
+                                      child: Text("Yes", style: AppFontStyle.headingTextStyle(PRIMARY_COLOR, textSize: 16.0),)
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        );
+                      }
+                  );
+                }
             ),
 
           ],
@@ -148,7 +204,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           Expanded(
             child: TabBarView(
                 children: [
-                PendingTab(),
+                AddnewTab(),
                 AssignedTab(),
                 PauseRequestTab(),
                 FinishedTab()

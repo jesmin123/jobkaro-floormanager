@@ -21,18 +21,23 @@ class _PauseRequestItemState extends State<PauseRequestItem> {
             trailing:  Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(LineIcons.phone, size: ICON_SIZE ,color: APP_BLACK_COLOR),
-                SizedBox(width: LINE_HEIGHT),
-                Icon(LineIcons.play, size: ICON_SIZE, color: APP_BLACK_COLOR),
-                SizedBox(width: LINE_HEIGHT),
-                Icon(LineIcons.pause, size: ICON_SIZE ,color: APP_BLACK_COLOR),
+                IconButton(onPressed: (){},icon: Icon(Icons.call_outlined, size: ICON_SIZE,),focusColor: PRIMARY_COLOR,),
+                SizedBox(width:LINE_HEIGHT*0.1),
+                IconButton(onPressed: (){}, icon: Icon(Icons.play_arrow_outlined, size: ICON_SIZE,),),
+                SizedBox(width: LINE_HEIGHT*0.1),
+                IconButton(onPressed: (){}, icon: Icon(Icons.pause_outlined, size: ICON_SIZE,),),
                 SizedBox(width: LINE_HEIGHT),
               ],
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 16),
-            child: Text('Reason: Welding machine is not working', style: AppFontStyle.labelTextStyle(APP_BLACK_COLOR),),
+            child: Row(
+              children: [
+                Text('Reason :', style: AppFontStyle.labelTextStyle2(APP_BLACK_COLOR),),
+                Text('Welding machine is not working',  style: AppFontStyle.labelTextStyle3(APP_BLACK_COLOR))
+              ],
+            ),
           ),
         ]
     );

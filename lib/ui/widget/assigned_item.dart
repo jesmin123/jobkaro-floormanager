@@ -3,6 +3,7 @@ import 'package:job_karo_floor_manager/constants/app_font_style.dart';
 import 'package:job_karo_floor_manager/constants/colors.dart';
 import 'package:job_karo_floor_manager/constants/dimen.dart';
 import 'package:job_karo_floor_manager/constants/strings.dart';
+import 'package:job_karo_floor_manager/ui/pages/job_details_page.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
@@ -15,6 +16,7 @@ class _AssignedItemState extends State<AssignedItem> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: (){Navigator.pushNamed(context, JOB_DETAILS_PAGE);},
       isThreeLine: true,
         title: Text('Maruti Alto',style: AppFontStyle.regularTextStyle(APP_BLACK_COLOR),),
         subtitle: Column(
@@ -32,17 +34,17 @@ class _AssignedItemState extends State<AssignedItem> {
           totalSteps: 100,
           currentStep: 80,
           selectedColor: PRIMARY_COLOR,
-          stepSize: 5,
-          unselectedColor: UNSELECTED_COLOR,
+          stepSize: 3,
+          unselectedColor: APP_GREY_COLOR,
           padding: 0,
-          width:58,
-          height: 80,
-            child: Center(child: Text('80%',)),
-          selectedStepSize: 6,
+          width:45,
+          height: 45,
+            child: Center(child: Text('80%', style: AppFontStyle.labelTextStyle3(APP_BLACK_COLOR),)),
+          selectedStepSize: 4,
           roundedCap: (_, __) => true,
         ),
             SizedBox(width:16),
-            Icon(LineIcons.arrow_circle_o_right,size: ICON_SIZE,color: APP_BLACK_COLOR,)
+            Icon(Icons.arrow_forward_rounded,size: ICON_SIZE,color: PRIMARY_COLOR,)
           ],
         )
     );

@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RespObj{
-  bool _status,auth;
+  String  _status,auth;
   String msg,token,id;
   int length;
   dynamic data;
@@ -20,14 +20,15 @@ class RespObj{
   }
 
   factory RespObj.fromJSON(Map<dynamic, dynamic> json){
+    json = json['posts'];
     try{
-      return RespObj(json['status'], msg: json['msg'],data: json['data'],token: json['token'],id: json['id'],length: json['length']);
+      return RespObj(json['status'], msg: json['message'],data: json['data'],token: json['token'],id: json['id'],length: json['length']);
     }catch (e){
       print(e);
       return null;
     }
   }
 
-  bool get status => _status;
+  bool getStatus() => _status!=null?_status=="1"?true:false:false;
 
 }

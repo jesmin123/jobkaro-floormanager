@@ -33,7 +33,7 @@ class AppFontStyle{
   static TextStyle headingTextStyle(Color color, {num textSize}) {
     return TextStyle(
         color: color,
-        fontSize: 18,
+        fontSize: textSize!=null?textSize:18,
         fontWeight: FontWeight.w500,
         fontFamily: "Exo"
     );
@@ -66,4 +66,34 @@ class AppFontStyle{
     );
   }
 
+
+  static TextStyle labelTextStyle2(Color color, {num textSize}) {
+    return TextStyle(
+        color: color,
+        fontSize: 16,
+        fontWeight: FontWeight.w400,
+        fontFamily: "Exo"
+    );
+  }
+
+  static TextStyle labelTextStyle3(Color color, {num textSize}) {
+    return TextStyle(
+        color: color,
+        fontSize: 12,
+        fontWeight: FontWeight.w400,
+        fontFamily: "Exo"
+    );
+  }
+
+  static TextStyle labelTextStyle4(Color color, {num textSize}) {
+    return TextStyle(
+        color: color,
+        fontSize: 10,
+        fontWeight: FontWeight.w400,
+        fontFamily: "Exo"
+    );
+  }
+
+
 }
+
