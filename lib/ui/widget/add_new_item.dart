@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:job_karo_floor_manager/constants/app_font_style.dart';
 import 'package:job_karo_floor_manager/constants/colors.dart';
@@ -39,7 +38,6 @@ class _AddNewItemState extends State<AddNewItem> {
 
   @override
   Widget build(BuildContext context) {
-    final JobCardProvider jobCardProvider = Provider.of(context);
     final NewtaskProvider newTaskProvider = Provider.of(context);
     final UserProvider userProvider = Provider.of(context);
 
@@ -48,204 +46,201 @@ class _AddNewItemState extends State<AddNewItem> {
       padding: const EdgeInsets.all(8.0),
       child: Form(
         key: _formKey,
-        child: Expanded(
-          child: Column(
-            children: <Widget>[
-              SizedBox(height: 10),
-              Row(
-                children: [
-                  Text(
-                    "Vehicle Details",
-                    style: AppFontStyle.headingTextStyle(APP_BLACK_COLOR),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                ],
-              ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: _modelController,
-                validator: singleValidator,
-                decoration: InputDecoration(
-                    labelText: "Model*", focusColor: APP_BLACK_COLOR),
-              ),
-              SizedBox(height: 14),
-              TextFormField(
-                controller: _makeController,
-                validator: singleValidator,
-                decoration: InputDecoration(
-                    labelText: "Make*", focusColor: APP_BLACK_COLOR),
-              ),
-              SizedBox(height: 14),
-              TextFormField(
-                controller: _regNoController,
-                decoration: InputDecoration(labelText: "Reg No.*"),
-                validator: singleValidator,
-              ),
-              SizedBox(height: 14),
-              TextFormField(
-                controller: _customerNameController,
-                decoration: InputDecoration(labelText: "Customer Name*"),
-                validator: singleValidator,
-              ),
-              SizedBox(height: 14),
-              TextFormField(
-                controller: _customerContactController,
-                decoration: InputDecoration(labelText: "Customer Contact*"),
-                validator: singleValidator,
-              ),
-              SizedBox(height: 14),
-              TextFormField(
-                decoration: InputDecoration(labelText: "DMS Job Card Number*"),
-                validator: singleValidator,
-              ),
-              SizedBox(height: 14),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'ERP Job Card Number*'),
-                validator: singleValidator,
-              ),
-              SizedBox(height: 14),
-              ListTile(
-                leading: Text('Team',
-                    style: AppFontStyle.headingTextStyle(APP_BLACK_COLOR)),
-                trailing: Text('${newTaskProvider.selectedEmployees.length} members'),
-              ),
-              Container(
-                height: 100,
-                child: ListView.separated(
-                  separatorBuilder: (_, pos) => SizedBox(
-                    width: 8,
-                  ),
-                  shrinkWrap: true,
-                  itemCount: newTaskProvider.selectedEmployees.length+1,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, pos) {
-                    if (pos == 0) {
-                      return Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              left: 32.0,
-                            ),
-                            child: InkWell(
-                              onTap: () {
-                                showEmployeeDialog();
-                              },
-                              child: Column(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor: PRIMARY_COLOR,
-                                    radius: 32,
-                                    child: Icon(
-                                      Icons.person_add,
-                                      color: APP_WHITE_COLOR,
-                                      size: 24,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Add new',
-                                    style: AppFontStyle.labelTextStyle3(
-                                        APP_BLACK_COLOR),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    } else{
-                      TeamModel employee = newTaskProvider.selectedEmployees[pos-1];
-                      return EmpAvatarWidget(employee);
-                    }
-                  },
-                ),
-              ),
-              ListTile(
-                leading: Text(
-                  'Tasks',
+        child: Column(
+          children: <Widget>[
+            SizedBox(height: 10),
+            Row(
+              children: [
+                Text(
+                  "Vehicle Details",
                   style: AppFontStyle.headingTextStyle(APP_BLACK_COLOR),
                 ),
-                trailing: InkWell(
-                  onTap: () {
-                    showTaskDialog();
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        color: PRIMARY_COLOR),
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 12, right: 12, top: 4, bottom: 4),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.add,
-                            color: APP_WHITE_COLOR,
-                            size: 16,
+                SizedBox(
+                  height: 8,
+                ),
+              ],
+            ),
+            SizedBox(height: 10),
+            TextFormField(
+              controller: _modelController,
+              validator: singleValidator,
+              decoration: InputDecoration(
+                  labelText: "Model*", focusColor: APP_BLACK_COLOR),
+            ),
+            SizedBox(height: 14),
+            TextFormField(
+              controller: _makeController,
+              validator: singleValidator,
+              decoration: InputDecoration(
+                  labelText: "Make*", focusColor: APP_BLACK_COLOR),
+            ),
+            SizedBox(height: 14),
+            TextFormField(
+              controller: _regNoController,
+              decoration: InputDecoration(labelText: "Reg No.*"),
+              validator: singleValidator,
+            ),
+            SizedBox(height: 14),
+            TextFormField(
+              controller: _customerNameController,
+              decoration: InputDecoration(labelText: "Customer Name*"),
+              validator: singleValidator,
+            ),
+            SizedBox(height: 14),
+            TextFormField(
+              controller: _customerContactController,
+              decoration: InputDecoration(labelText: "Customer Contact*"),
+              validator: singleValidator,
+            ),
+            SizedBox(height: 14),
+            TextFormField(
+              decoration: InputDecoration(labelText: "DMS Job Card Number*"),
+              validator: singleValidator,
+            ),
+            SizedBox(height: 14),
+            TextFormField(
+              decoration: InputDecoration(labelText: 'ERP Job Card Number*'),
+              validator: singleValidator,
+            ),
+            SizedBox(height: 14),
+            ListTile(
+              leading: Text('Team',
+                  style: AppFontStyle.headingTextStyle(APP_BLACK_COLOR)),
+              trailing: Text('${newTaskProvider.selectedEmployees.length} members'),
+            ),
+            Container(
+              height: 100,
+              child: ListView.separated(
+                separatorBuilder: (_, pos) => SizedBox(
+                  width: 8,
+                ),
+                shrinkWrap: true,
+                itemCount: newTaskProvider.selectedEmployees.length+1,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, pos) {
+                  if (pos == 0) {
+                    return Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 32.0,
                           ),
-                          Text(
-                            "Add task",
-                            style: AppFontStyle.labelTextStyle2(APP_WHITE_COLOR),
+                          child: InkWell(
+                            onTap: () {
+                              showEmployeeDialog();
+                            },
+                            child: Column(
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: PRIMARY_COLOR,
+                                  radius: 32,
+                                  child: Icon(
+                                    Icons.person_add,
+                                    color: APP_WHITE_COLOR,
+                                    size: 24,
+                                  ),
+                                ),
+                                Text(
+                                  'Add new',
+                                  style: AppFontStyle.labelTextStyle3(
+                                      APP_BLACK_COLOR),
+                                ),
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
+                    );
+                  } else{
+                    TeamModel employee = newTaskProvider.selectedEmployees[pos-1];
+                    return EmpAvatarWidget(employee);
+                  }
+                },
+              ),
+            ),
+            ListTile(
+              leading: Text(
+                'Tasks',
+                style: AppFontStyle.headingTextStyle(APP_BLACK_COLOR),
+              ),
+              trailing: InkWell(
+                onTap: () {
+                  showTaskDialog();
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: PRIMARY_COLOR),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 12, right: 12, top: 4, bottom: 4),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.add,
+                          color: APP_WHITE_COLOR,
+                          size: 16,
+                        ),
+                        Text(
+                          "Add task",
+                          style: AppFontStyle.labelTextStyle2(APP_WHITE_COLOR),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: newTaskProvider.selectedTask.length,
-                  itemBuilder: (_,pos){
-                  TaskModel task = newTaskProvider.selectedTask[pos];
-                    return CheckboxListTile(
-                      value:  newTaskProvider.checkTaskExists(task),
-                      onChanged: (val){
-                        if(val){
-                          newTaskProvider.addToSelectedTask(task);
-                        }else{
-                          newTaskProvider.removeFromSelectedTask(task);
-                        }
-                      },
-                      title: Text(task.name, style: AppFontStyle.headingTextStyle(APP_BLACK_COLOR, textSize: 16.0),),
-                      subtitle: Text('${task.minute} Minutes', style: AppFontStyle.labelTextStyle3(APP_BLACK_COLOR),),
+            ),
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: newTaskProvider.selectedTask.length,
+                itemBuilder: (_,pos){
+                TaskModel task = newTaskProvider.selectedTask[pos];
+                  return CheckboxListTile(
+                    value:  newTaskProvider.checkTaskExists(task),
+                    onChanged: (val){
+                      if(val){
+                        newTaskProvider.addToSelectedTask(task);
+                      }else{
+                        newTaskProvider.removeFromSelectedTask(task);
+                      }
+                    },
+                    title: Text(task.name, style: AppFontStyle.headingTextStyle(APP_BLACK_COLOR, textSize: 16.0),),
+                    subtitle: Text('${task.minute} Minutes', style: AppFontStyle.labelTextStyle3(APP_BLACK_COLOR),),
+                  );
+                }
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 16.0,
+              ),
+              child: RaisedButton(
+                onPressed: () async {
+                  if (_formKey.currentState.validate()) {
+                    RespObj response = await newTaskProvider.CreateRequest(
+                        _modelController.text,
+                        _makeController.text,
+                        _regNoController.text,
+                        _customerNameController.text,
+                        _customerContactController.text,
+                        userProvider
                     );
                   }
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 16.0,
-                ),
-                child: RaisedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState.validate()) {
-                      RespObj response = await newTaskProvider.CreateRequest(
-                          _modelController.text,
-                          _makeController.text,
-                          _regNoController.text,
-                          _customerNameController.text,
-                          _customerContactController.text,
-                          userProvider
-                      );
-
-                    }
-                  },
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16)),
-                  color: PRIMARY_COLOR,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Submit',
-                      style: AppFontStyle.labelTextStyle2(APP_WHITE_COLOR),
-                    ),
+                },
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16)),
+                color: PRIMARY_COLOR,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Submit',
+                    style: AppFontStyle.labelTextStyle2(APP_WHITE_COLOR),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
