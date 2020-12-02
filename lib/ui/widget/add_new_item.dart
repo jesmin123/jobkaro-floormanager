@@ -253,7 +253,6 @@ class _AddNewItemState extends State<AddNewItem> {
                         return AlertDialog(
                           content: Container(
                             width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height * 0.4,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
