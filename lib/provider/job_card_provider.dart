@@ -9,8 +9,6 @@ import 'user_provider.dart';
 
 class JobCardProvider extends ChangeNotifier{
 
-
-
   List<TeamModel> _allEmployees = new List();
 
   List<TeamModel> get allEmployees => _allEmployees;
@@ -20,15 +18,10 @@ class JobCardProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-
-
   initData(UserProvider userProvider){
     getAllEmployes(userProvider.user.jwt);
     getAllTasks(userProvider.user.jwt);
   }
-
-
-
 
    getAllEmployes(String token) async {
     String route = '';
@@ -51,25 +44,6 @@ class JobCardProvider extends ChangeNotifier{
 
   }
 
-
-  Future <RespObj> CreateRequest(String model, String make, String regNo, String customerName, String customerContact)async {
-    String route = '';
-    Map<String, dynamic> createRequest = {
-      "function": "create_request",
-      "model": "$model",
-      "make": "$make",
-      "reg_no": "$regNo",
-      "customer_name": "$customerName",
-      "contact_number": "$customerContact",
-    };
-    String jsonData = jsonEncode(createRequest);
-
-    api.postData(route, mBody: jsonData).then((value) {
-      if (value.getStatus()) {
-        dynamic data = value.data;
-      }
-    });
-  }
 
   String selectedTask;
 
@@ -99,8 +73,6 @@ class JobCardProvider extends ChangeNotifier{
       allTasks =allTasksTemp;
     });
    }
-
-
 
 
 }

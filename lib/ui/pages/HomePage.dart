@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_greetings/flutter_greetings.dart';
 import 'package:job_karo_floor_manager/constants/dimen.dart';
+import 'package:job_karo_floor_manager/constants/strings.dart';
 import 'package:job_karo_floor_manager/provider/job_card_provider.dart';
 import 'package:job_karo_floor_manager/provider/notification_provider.dart';
 import 'package:job_karo_floor_manager/provider/user_provider.dart';

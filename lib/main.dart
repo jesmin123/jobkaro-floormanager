@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:job_karo_floor_manager/provider/job_card_provider.dart';
+import 'package:job_karo_floor_manager/provider/new_task_provider.dart';
 import 'package:job_karo_floor_manager/provider/notification_provider.dart';
 import 'package:job_karo_floor_manager/provider/user_provider.dart';
 import 'package:job_karo_floor_manager/ui/pages/HomePage.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create:  (_)=>NotificationProvider()),
         ChangeNotifierProvider(create:  (_)=>JobCardProvider()),
         ChangeNotifierProvider(create:  (_)=>UserProvider()),
+        ChangeNotifierProvider(create:  (_)=>NewtaskProvider()),
       ],
       child: MaterialApp(
         title: APP_NAME,
