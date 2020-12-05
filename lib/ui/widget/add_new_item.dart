@@ -319,7 +319,9 @@ class _AddNewItemState extends State<AddNewItem> {
                     Container(
                       width: 100,
                       child: RaisedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
                         color: PRIMARY_COLOR,
                         shape: RoundedRectangleBorder(
                             borderRadius:
@@ -327,10 +329,11 @@ class _AddNewItemState extends State<AddNewItem> {
                         child: Row(
                           children: [
                             Icon(
-                              Icons.done,
+                              Icons.close,
                               color: APP_WHITE_COLOR,
+                              size: ICON_SIZE*0.7,
                             ),
-                            Text('Add',
+                            Text('| Close',
                                 style: AppFontStyle
                                     .labelTextStyle2(
                                     APP_WHITE_COLOR)),
@@ -355,60 +358,100 @@ class _AddNewItemState extends State<AddNewItem> {
           final NewtaskProvider newTaskProvider = Provider.of(context);
           return AlertDialog(
             scrollable: true,
-            content: Stack(
+            content: Column(
               children: [
-                ListView.builder(
-                  itemBuilder: (context, pos) {
-                    TeamModel technician  = jobCardProvider.allEmployees[pos];
-                    return CheckboxListTile(
-                      value: newTaskProvider.checkTechicianExists(technician),
-                      subtitle: Column(
-                        mainAxisSize:
-                        MainAxisSize.min,
-                        crossAxisAlignment:
-                        CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            TECHNICIAN,
+                Text('Assign Employee for the JobCard', style: AppFontStyle.headingTextStyle(
+                    APP_BLACK_COLOR), textAlign: TextAlign.center,),
+                SizedBox(height: LINE_HEIGHT,),
+                Stack(
+                  children: [
+                    ListView.builder(
+                      itemBuilder: (context, pos) {
+                        TeamModel technician  = jobCardProvider.allEmployees[pos];
+                        return CheckboxListTile(
+                          value: newTaskProvider.checkTechicianExists(technician),
+                          subtitle: Column(
+                            mainAxisSize:
+                            MainAxisSize.min,
+                            crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                            children: [
+
+                              Text(
+                                TECHNICIAN,
+                                style: AppFontStyle
+                                    .headingTextStyle(
+                                    APP_BLACK_COLOR,
+                                    textSize: 12.0),
+                              ),
+                              Text(
+                                'Emp Code :' +
+                                    technician.empCode,
+                                style: AppFontStyle
+                                    .labelTextStyle4(
+                                    APP_BLACK_COLOR),
+                              ),
+                              Text(
+                                  'Mobile No :' +technician.mobile,
+                                  style: AppFontStyle
+                                      .labelTextStyle4(
+                                      APP_BLACK_COLOR)),
+                            ],
+                          ),
+                          title: Text(
+                            technician.name,
                             style: AppFontStyle
                                 .headingTextStyle(
                                 APP_BLACK_COLOR,
-                                textSize: 12.0),
+                                textSize: 16.0),
                           ),
-                          Text(
-                            'Emp Code :' +
-                                technician.empCode,
-                            style: AppFontStyle
-                                .labelTextStyle4(
-                                APP_BLACK_COLOR),
-                          ),
-                          Text(
-                              'Mobile No :' +technician.mobile,
-                              style: AppFontStyle
-                                  .labelTextStyle4(
-                                  APP_BLACK_COLOR)),
-                        ],
-                      ),
-                      title: Text(
-                        technician.name,
-                        style: AppFontStyle
-                            .headingTextStyle(
-                            APP_BLACK_COLOR,
-                            textSize: 16.0),
-                      ),
-                      onChanged: (val){
-                        if(val){
-                          newTaskProvider.addToSelectedEmployees(technician);
-                        }else{
-                          newTaskProvider.removeFromSelectedEmployees(technician);
-                        }
+                          onChanged: (val){
+                            if(val){
+                              newTaskProvider.addToSelectedEmployees(technician);
+                            }else{
+                              newTaskProvider.removeFromSelectedEmployees(technician);
+                            }
+                          },
+                        );
                       },
-                    );
-                  },
-                  shrinkWrap: true,
-                  itemCount: jobCardProvider.allTasks.length,
-                  physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: jobCardProvider.allEmployees.length,
+                      physics: NeverScrollableScrollPhysics(),
+                    ),
+                  ],
                 ),
+                SizedBox(height: LINE_HEIGHT,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 100,
+                      child: RaisedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        color: PRIMARY_COLOR,
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                            BorderRadius.circular(32)),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.close,
+                              color: APP_WHITE_COLOR,
+                              size: ICON_SIZE*0.7,
+                            ),
+                            Text('| Close',
+                                style: AppFontStyle
+                                    .labelTextStyle2(
+                                    APP_WHITE_COLOR)),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
               ],
             ),
           );

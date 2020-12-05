@@ -127,4 +127,26 @@ class JobCardProvider extends ChangeNotifier{
 
   //----------------------------------------------------------------------------
 
+  ServiceRequestModel _selectedService;
+
+  ServiceRequestModel get selectedService => _selectedService;
+
+  set selectedService(ServiceRequestModel value) {
+    _selectedService = value;
+    notifyListeners();
+  }
+
+  TeamModel getTeamMember(String id){
+    TeamModel member;
+    allEmployees.forEach((element) {
+      if(element.id == id){
+        member = element;
+      }
+    });
+    return member;
+  }
+
+
 }
+
+
