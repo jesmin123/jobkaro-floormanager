@@ -10,11 +10,23 @@ import 'package:job_karo_floor_manager/ui/pages/login_page.dart';
 import 'package:provider/provider.dart';
 import './constants/strings.dart';
 
-void main() {
-  runApp(MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  UserProvider userProvider = UserProvider();
+  bool isLoggedIN  = await userProvider.checkLoginLocal();
+  String initialRoute = LOGIN_PAGE;
+  if(isLoggedIN){
+    initialRoute =  HOME_PAGE;
+  }
+  runApp(MyApp(initialRoute: initialRoute,));
+
 }
 
 class MyApp extends StatelessWidget {
+
+  final String initialRoute;
+
+  MyApp({this.initialRoute});
 
   final routes = <String,WidgetBuilder>{
       HOME_PAGE: (context)=> HomePage(),
@@ -32,17 +44,31 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create:  (_)=>UserProvider()),
         ChangeNotifierProvider(create:  (_)=>NewtaskProvider()),
       ],
-      child: MaterialApp(
-        title: APP_NAME,
-        theme: ThemeData(
-          primarySwatch: Colors.orange,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        routes: routes,
-        debugShowCheckedModeBanner: false,
-        initialRoute: LOGIN_PAGE,
+      child: Consumer<UserProvider>(
+        builder: (context, appData, child) {
+          decideFirstPage(context);
+          return MaterialApp(
+            title: APP_NAME,
+            theme: ThemeData(
+              primarySwatch: Colors.orange,
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+            ),
+            routes: routes,
+            debugShowCheckedModeBanner: false,
+            initialRoute: initialRoute,
+          );
+        }
       ),
     );
+  }
+
+  decideFirstPage(BuildContext context) async {
+    final UserProvider userProvider = Provider.of(context,listen: false);
+    bool isLoggedIN = await userProvider.checkLoginLocal();
+    if(isLoggedIN){
+      return HOME_PAGE;
+    }
+    return LOGIN_PAGE;
   }
 
 

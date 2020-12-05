@@ -9,6 +9,11 @@ import 'user_provider.dart';
 
 class JobCardProvider extends ChangeNotifier{
 
+  initData(UserProvider userProvider){
+    getAllEmployes(userProvider.user.jwt);
+    getAllTasks(userProvider.user.jwt);
+  }
+
   List<TeamModel> _allEmployees = new List();
 
   List<TeamModel> get allEmployees => _allEmployees;
@@ -18,12 +23,8 @@ class JobCardProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  initData(UserProvider userProvider){
-    getAllEmployes(userProvider.user.jwt);
-    getAllTasks(userProvider.user.jwt);
-  }
 
-   getAllEmployes(String token) async {
+  getAllEmployes(String token) async {
     String route = '';
     Map<String, dynamic> sendData ={
       'function' : 'technicians_list'
@@ -44,9 +45,6 @@ class JobCardProvider extends ChangeNotifier{
 
   }
 
-
-  String selectedTask;
-
   List<TaskModel> _allTasks = new List();
 
   List<TaskModel> get allTasks => _allTasks;
@@ -56,7 +54,7 @@ class JobCardProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-   getAllTasks(String jwt) async{
+  getAllTasks(String jwt) async{
     String route ='';
     Map<String, dynamic> sendData ={
       'function' : 'tasks_list'
@@ -74,5 +72,42 @@ class JobCardProvider extends ChangeNotifier{
     });
    }
 
+  getAllJobCards(String jwt) async{
+    String route ='';
+    Map<String, dynamic> sendData ={
+      "function":"requests_list",
+      "request_id":""
+    };
+
+    String jsonData = jsonEncode(sendData);
+
+    api.postData(route, header: jwt,mBody: jsonData).then((value){
+      if(value.getStatus()){
+        List<dynamic> jobCards = value.data['service_requests'];
+        jobCards.forEach((element) {
+        });
+      }
+    });
+
+  }
+
+  getAllPauseRequest(String jwt) async{
+    String route ='';
+    Map<String, dynamic> sendData ={
+      "function":"requests_list",
+      "request_id":""
+    };
+
+    String jsonData = jsonEncode(sendData);
+
+    api.postData(route, header: jwt,mBody: jsonData).then((value){
+      if(value.getStatus()){
+        List<dynamic> jobCards = value.data['service_requests'];
+        jobCards.forEach((element) {
+        });
+      }
+    });
+
+  }
 
 }

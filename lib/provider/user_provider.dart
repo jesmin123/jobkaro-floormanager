@@ -29,9 +29,20 @@ class UserProvider extends ChangeNotifier{
     if(response.getStatus()){
       dynamic data = response.data;
       user = UserModel.fromJSON(data['user_data']);
+      saveLoginLocal(jsonEncode(data['user_data']));
       print(user.name);
     }
     return response;
+  }
+
+  bool _isLoggedIn = false;
+
+
+  bool get isLoggedIn => _isLoggedIn;
+
+  set isLoggedIn(bool value) {
+    _isLoggedIn = value;
+    notifyListeners();
   }
 
   UserModel _user;
@@ -58,7 +69,27 @@ class UserProvider extends ChangeNotifier{
 
   }
 
-
-
+  Future<void> saveLoginLocal(String userData) async {
+    SharedPreferences sh = await SharedPreferences.getInstance();
+    sh.setString("user", userData);
   }
+
+  Future<bool> checkLoginLocal() async {
+    SharedPreferences sh = await SharedPreferences.getInstance();
+    String userString = sh.getString("user");
+    if(userString==null){
+      return false;
+    }
+    UserModel userTemp = UserModel.fromJSON(jsonDecode(userString));
+    if(userTemp==null){
+      return false;
+    }
+
+    user = userTemp;
+    isLoggedIn = true;
+    return true;
+  }
+
+
+}
 
