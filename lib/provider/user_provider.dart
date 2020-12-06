@@ -37,7 +37,6 @@ class UserProvider extends ChangeNotifier{
 
   bool _isLoggedIn = false;
 
-
   bool get isLoggedIn => _isLoggedIn;
 
   set isLoggedIn(bool value) {
@@ -55,13 +54,15 @@ class UserProvider extends ChangeNotifier{
   }
 
   logout(){
+    isLoggedIn = false;
     String route ='';
     Map<String, dynamic> logoutData = {
       "function" : "logout"
     };
     String jsonData = jsonEncode(logoutData);
 
-    api.postData(route, mBody: jsonData).then((value){
+    saveLoginLocal("");
+    api.postData(route, mBody: jsonData,header: user.jwt).then((value){
       if(value.getStatus()){
         dynamic data = value.data;
       }
@@ -89,6 +90,7 @@ class UserProvider extends ChangeNotifier{
     isLoggedIn = true;
     return true;
   }
+
 
 
 }

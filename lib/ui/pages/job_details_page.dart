@@ -3,8 +3,8 @@ import 'package:job_karo_floor_manager/constants/app_font_style.dart';
 import 'package:job_karo_floor_manager/constants/colors.dart';
 import 'package:job_karo_floor_manager/constants/dimen.dart';
 import 'package:job_karo_floor_manager/constants/strings.dart';
-import 'package:job_karo_floor_manager/model/TaskModel.dart';
 import 'package:job_karo_floor_manager/provider/job_card_provider.dart';
+import 'package:job_karo_floor_manager/provider/user_provider.dart';
 import 'package:job_karo_floor_manager/ui/widget/job_details_widget.dart';
 import 'package:job_karo_floor_manager/ui/widget/tasks_widget.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +20,10 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+
     final JobCardProvider jobCardProvider = Provider.of(context);
+    final UserProvider userProvider = Provider.of(context);
+
     ServiceRequestModel service = jobCardProvider.selectedService;
     return Scaffold(
       appBar: AppBar(
@@ -85,9 +88,9 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                       ),
                     ),
                     Padding(
-                    padding: const EdgeInsets.only(right: 14,left: 14, bottom: 12,top: 12),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      padding: const EdgeInsets.only(right: 14,left: 14, bottom: 12,top: 12),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                        children: [
                          Row(
                            children: [
@@ -146,26 +149,39 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                         itemCount: service.jobModel.length,
                             itemBuilder: (context, pos){
                               JobModel item  = service.jobModel[pos];
-                            return TasksWidget(item);
-                             }
-                             ),
-                    ListTile(leading: Text(OVER_TIME, style: AppFontStyle.headingTextStyle(APP_BLACK_COLOR, textSize: 20.0),)),
-                    ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount:  service.jobModel.length,
-                        itemBuilder: (context, pos){
-                          JobModel item  = service.jobModel[pos];
-                          return TasksWidget(item);
-                        }
+                              return TasksWidget(item);
+                             }),
+                    service.getOverTimeTask().length==0?Container():Column(
+                      children: [
+                        ListTile(leading: Text(OVER_TIME, style: AppFontStyle.headingTextStyle(APP_BLACK_COLOR, textSize: 20.0),)),
+                        ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount:  service.getOverTimeTask().length,
+                            itemBuilder: (context, pos){
+                              JobModel item  = service.getOverTimeTask()[pos];
+                              return TasksWidget(item);
+                            }
+                        ),
+                        SizedBox(height: LINE_HEIGHT*3,)
+                      ],
                     ),
-                    SizedBox(height: LINE_HEIGHT*3,)
+
                   ],
                 ),
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: RaisedButton(onPressed: (){},
+                child: RaisedButton(
+                  onPressed: () async {
+                    //todo add loaders
+                   bool status = await jobCardProvider.markServiceAsCompleted(userProvider.user.jwt , service.id);
+                   // todo show toast message
+                   if(status){
+                     Navigator.pop(context);
+                   }
+
+                  },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8)
                   ),

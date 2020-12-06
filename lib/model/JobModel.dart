@@ -50,4 +50,38 @@ class JobModel{
     }
   }
 
+  String getTimeTaken(){
+    String timetaken = "00";
+    if(status=="1"){
+      timetaken = "00";
+    }
+    else if(endTime!=null && startTime!=null){
+      DateTime startTimeDt = DateTime.parse(startTime);
+      DateTime endTimeDt = DateTime.parse(endTime);
+      int pauseMin = 0;
+      if(pauseDuration!=null){
+        pauseMin = int.tryParse(pauseDuration);
+      }
+      int timeElapsed = endTimeDt.difference(startTimeDt).inMinutes;
+      timetaken = (timeElapsed-pauseMin).toString();
+    }else if(startTime!=null && overTime=="1"){
+      timetaken = task.minute;
+    }
+    else if(startTime!=null){
+      DateTime startTimeDt = DateTime.parse(startTime);
+      DateTime endTimeDt = DateTime.now();
+      int pauseMin = 0;
+      if(pauseDuration!=null){
+        pauseMin = int.tryParse(pauseDuration);
+      }
+      int timeElapsed = endTimeDt.difference(startTimeDt).inMinutes;
+      timetaken = (timeElapsed-pauseMin).abs().toString();
+      print("Time of taken ::; ${ timetaken}");
+    }else{
+      timetaken = "00";
+    }
+
+    return timetaken;
+  }
+
 }

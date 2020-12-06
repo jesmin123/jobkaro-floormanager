@@ -167,7 +167,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                           title: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text("Loging Out", style: AppFontStyle.headingTextStyle(APP_BLACK_COLOR),),
+                              Text("Logging Out", style: AppFontStyle.headingTextStyle(APP_BLACK_COLOR),),
                               SizedBox(height: LINE_HEIGHT*0.5,),
                               Text("Are you sure you want to log out?", style: AppFontStyle.labelTextStyle(APP_BLACK_COLOR), textAlign: TextAlign.center,),
                               Divider(),
@@ -183,6 +183,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                                   VerticalDivider(width: 25,thickness: 16,),
                                   FlatButton(
                                       onPressed: (){
+                                        logOut(userProvider);
                                         Navigator.pushNamed(context, LOGIN_PAGE);
                                       },
                                       child: Text("Yes", style: AppFontStyle.headingTextStyle(PRIMARY_COLOR, textSize: 16.0),)
@@ -218,8 +219,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     );
   }
 
-  logOut() {
-    //TODO Implement logic here
+  logOut(UserProvider userProvider) {
+    userProvider.logout();
   }
 
   closeDrawer(BuildContext context) {

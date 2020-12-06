@@ -93,12 +93,8 @@ class NewtaskProvider extends ChangeNotifier {
     };
     String jsonData = jsonEncode(createRequest);
 
-    api.postData(route, mBody: jsonData,header: userProvider.user.jwt).then((value) {
-      if (value.getStatus()) {
-        dynamic data = value.data;
-        //TODO Clear all the existing data
-      }
-    });
+    RespObj response = await api.postData(route, mBody: jsonData,header: userProvider.user.jwt);
+    return response;
   }
 
 }

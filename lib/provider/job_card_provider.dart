@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:job_karo_floor_manager/api/api.dart';
+import 'package:job_karo_floor_manager/model/PauseTaskModel.dart';
+import 'package:job_karo_floor_manager/model/RespObj.dart';
 import 'package:job_karo_floor_manager/model/ServicerequestModel.dart';
 import 'package:job_karo_floor_manager/model/TaskModel.dart';
 import 'package:job_karo_floor_manager/model/TeamModel.dart';
@@ -46,6 +48,16 @@ class JobCardProvider extends ChangeNotifier{
 
   }
 
+  TeamModel getTeamMember(String id){
+    TeamModel member;
+    allEmployees.forEach((element) {
+      if(element.id == id){
+        member = element;
+      }
+    });
+    return member;
+  }
+
   List<TaskModel> _allTasks = new List();
 
   List<TaskModel> get allTasks => _allTasks;
@@ -73,23 +85,7 @@ class JobCardProvider extends ChangeNotifier{
     });
    }
 
-  getAllPauseRequest(String jwt) async{
-    String route ='';
-    Map<String, dynamic> sendData ={
-      "function":"paused_tasks",
-    };
 
-    String jsonData = jsonEncode(sendData);
-
-    api.postData(route, header: jwt,mBody: jsonData).then((value){
-      if(value.getStatus()){
-        List<dynamic> jobCards = value.data['service_requests'];
-        jobCards.forEach((element) {
-        });
-      }
-    });
-
-  }
 
   // --------------------------- Service Requests ------------------------------
 
@@ -102,10 +98,20 @@ class JobCardProvider extends ChangeNotifier{
     notifyListeners();
   }
 
+  List<ServiceRequestModel> _completedServiceRequest = new List();
+
+  List<ServiceRequestModel> get completedServiceRequest =>
+      _completedServiceRequest;
+
+  set completedServiceRequest(List<ServiceRequestModel> value) {
+    _completedServiceRequest = value;
+    notifyListeners();
+  }
+
   getAllServiceRequests(String jwt){
 
     String route ='';
-    Map<String, dynamic> sendData ={
+    Map<String, dynamic> sendData = {
       "function":"requests_list",
       "request_id":""
     };
@@ -114,15 +120,37 @@ class JobCardProvider extends ChangeNotifier{
 
     api.postData(route, header: jwt,mBody: jsonData).then((value){
       List<ServiceRequestModel> serviceRequestsTemp = new List();
+      List<ServiceRequestModel> finishedServiceRequestsTemp = new List();
       if(value.getStatus()){
         List<dynamic> jobCards = value.data['service_requests'];
         jobCards.forEach((element) {
-          serviceRequestsTemp.add(ServiceRequestModel.fromJSON(element));
+          ServiceRequestModel service = ServiceRequestModel.fromJSON(element);
+          if(service!=null){
+            if(service.status=="3")
+              finishedServiceRequestsTemp.add(service);
+            else
+              serviceRequestsTemp.add(service);
+          }
         });
       }
       serviceRequests = serviceRequestsTemp;
+      completedServiceRequest = finishedServiceRequestsTemp;
     });
 
+  }
+
+  Future<bool> markServiceAsCompleted(String jwt,String taskId) async {
+    String route = '';
+    Map<String, dynamic> sendData ={
+      "function":"complete_request",
+      "task_id":taskId
+    };
+    String jsonData = jsonEncode(sendData);
+    RespObj response =  await api.postData(route, header: jwt,mBody: jsonData);
+    if(response.getStatus()){
+      getAllServiceRequests(jwt);
+    }
+    return response.getStatus();
   }
 
   //----------------------------------------------------------------------------
@@ -136,16 +164,66 @@ class JobCardProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  TeamModel getTeamMember(String id){
-    TeamModel member;
-    allEmployees.forEach((element) {
-      if(element.id == id){
-        member = element;
-      }
-    });
-    return member;
+
+  // ------------------------Pause Request-------------------------
+  List<PauseTaskModel> _pauseRequests = [];
+
+  List<PauseTaskModel> get pauseRequests => _pauseRequests;
+
+  set pauseRequests(List<PauseTaskModel> value) {
+    _pauseRequests = value;
+    notifyListeners();
   }
 
+  getAllPauseRequest(String jwt) async{
+
+    List<PauseTaskModel> pauseRequestsTemp = [];
+    String route ='';
+    Map<String, dynamic> sendData ={
+      "function":"paused_tasks",
+    };
+
+    String jsonData = jsonEncode(sendData);
+
+    api.postData(route, header: jwt,mBody: jsonData).then((value){
+      if(value.getStatus()){
+        List<dynamic> pausedTasks = value.data['paused_tasks'];
+        pausedTasks.forEach((element) {
+            pauseRequestsTemp.add(PauseTaskModel.fromJSON(element));
+        });
+      }
+      pauseRequests = pauseRequestsTemp;
+    });
+
+  }
+
+  Future<bool> pauseTask(String jwt,String taskId) async {
+    String route = '';
+    Map<String, dynamic> sendData ={
+      "function":"pause_task",
+      "task_id":taskId
+    };
+    String jsonData = jsonEncode(sendData);
+    RespObj response =  await api.postData(route, header: jwt,mBody: jsonData);
+    if(response.getStatus()){
+      getAllPauseRequest(jwt);
+    }
+    return response.getStatus();
+  }
+
+  Future<bool> resumeTask(String jwt,String taskId) async {
+    String route = '';
+    Map<String, dynamic> sendData ={
+      "function":"resume_task",
+      "task_id":taskId
+    };
+    String jsonData = jsonEncode(sendData);
+    RespObj response =  await api.postData(route, header: jwt,mBody: jsonData);
+    if(response.getStatus()){
+      getAllPauseRequest(jwt);
+    }
+    return response.getStatus();
+  }
 
 }
 

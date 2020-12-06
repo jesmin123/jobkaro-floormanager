@@ -34,7 +34,7 @@ class _TasksWidgetState extends State<TasksWidget> {
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text('13:00 / ${widget.item.task.minute}:00'
+          Text('${widget.item.getTimeTaken()}:00 / ${widget.item.task.minute}:00'
               ' m',style: AppFontStyle.headingTextStyle(PRIMARY_COLOR, textSize: 14.0)),
           SizedBox(width: LINE_HEIGHT*0.5,),
           PopupMenuButton(

@@ -78,7 +78,6 @@ class ServiceRequestModel{
     return [not_started,on_going,finished,deleted,pause_request,paused];
  }
 
-
  double getTaskCompletedPercent(){
     int completed_task_count = 0;
     jobModel.forEach((element) {
@@ -90,5 +89,27 @@ class ServiceRequestModel{
 
     return completed_task_count/jobModel.length;
  }
+
+  List<JobModel> getOnTimeTask(){
+    List<JobModel> onTimeTaskList = [];
+    jobModel.forEach((element) {
+      if(element.overTime=="1"){
+        onTimeTaskList.add(element);
+      }
+    });
+
+    return onTimeTaskList;
+  }
+
+  List<JobModel> getOverTimeTask(){
+    List<JobModel> overTimeTaskList = [];
+    jobModel.forEach((element) {
+      if(element.overTime=="2"){
+        overTimeTaskList.add(element);
+      }
+    });
+
+    return overTimeTaskList;
+  }
 
 }
