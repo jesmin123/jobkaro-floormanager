@@ -3,26 +3,38 @@ import 'package:job_karo_floor_manager/constants/app_font_style.dart';
 import 'package:job_karo_floor_manager/constants/colors.dart';
 import 'package:job_karo_floor_manager/constants/dimen.dart';
 import 'package:job_karo_floor_manager/constants/strings.dart';
+import 'package:job_karo_floor_manager/provider/job_card_provider.dart';
 import 'package:job_karo_floor_manager/ui/pages/job_details_page.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
+import '../../model/ServicerequestModel.dart';
 
 class AssignedItem extends StatefulWidget {
+  ServiceRequestModel item;
+
+  AssignedItem(this.item);
+
   @override
   _AssignedItemState createState() => _AssignedItemState();
 }
 
 class _AssignedItemState extends State<AssignedItem> {
+
   @override
   Widget build(BuildContext context) {
+    final JobCardProvider jobCardProvider = Provider.of(context);
     return ListTile(
-      onTap: (){Navigator.pushNamed(context, JOB_DETAILS_PAGE);},
+      onTap: (){
+        jobCardProvider.selectedService = widget.item;
+        Navigator.pushNamed(context, JOB_DETAILS_PAGE);
+        },
       isThreeLine: true,
-        title: Text('Maruti Alto',style: AppFontStyle.regularTextStyle(APP_BLACK_COLOR),),
+        title: Text("${widget.item.make} ${widget.item.model} ",style: AppFontStyle.regularTextStyle(APP_BLACK_COLOR),),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('KL-17-C-563 ', style: AppFontStyle.labelTextStyle(APP_BLACK_COLOR),),
+            Text(widget.item.regNo, style: AppFontStyle.labelTextStyle(APP_BLACK_COLOR),),
             SizedBox(height: 4),
             Text('4'+ " "+ASSIGNED, style: AppFontStyle.labelTextStyle(APP_BLACK_COLOR),)
           ],
@@ -31,15 +43,15 @@ class _AssignedItemState extends State<AssignedItem> {
           mainAxisSize: MainAxisSize.min,
           children: [
           CircularStepProgressIndicator(
-          totalSteps: 100,
-          currentStep: 80,
+          totalSteps: widget.item.jobModel.length,
+          currentStep: widget.item.getTaskCompletedPercent().round(),
           selectedColor: PRIMARY_COLOR,
           stepSize: 3,
           unselectedColor: APP_GREY_COLOR,
           padding: 0,
           width:45,
           height: 45,
-            child: Center(child: Text('80%', style: AppFontStyle.labelTextStyle3(APP_BLACK_COLOR),)),
+            child: Center(child: Text('${widget.item.getTaskCompletedPercent().roundToDouble()}%', style: AppFontStyle.labelTextStyle3(APP_BLACK_COLOR),)),
           selectedStepSize: 4,
           roundedCap: (_, __) => true,
         ),

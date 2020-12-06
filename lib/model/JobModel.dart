@@ -1,4 +1,6 @@
 
+import 'package:flutter/material.dart';
+import 'package:job_karo_floor_manager/constants/colors.dart';
 import 'package:job_karo_floor_manager/model/TaskModel.dart';
 import 'package:job_karo_floor_manager/model/TeamModel.dart';
 
@@ -34,6 +36,18 @@ class JobModel{
         print(ex);
         return null;
       }
+  }
+
+  Color getLeadingColor(){
+    if(status=="1"){
+      return APP_GREY_COLOR;
+    }else if(status == "2"){
+      return PRIMARY_COLOR;
+    }else if (status=="3"){
+      return APP_GREEN_COLOR;
+    }else{
+      return APP_GREY_COLOR;
+    }
   }
 
 }

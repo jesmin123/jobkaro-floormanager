@@ -43,4 +43,52 @@ class ServiceRequestModel{
       return null;
     }
   }
+
+ List<int> getProgressStatus(){
+    int not_started = 0;
+    int on_going = 0;
+    int finished = 0;
+    int deleted = 0;
+    int pause_request = 0;
+    int paused = 0;
+
+    jobModel.forEach((element) {
+      int status = int.parse(element.status);
+      switch(status){
+        case 1:
+          not_started += 1;
+          break;
+        case 2:
+          on_going += 1;
+          break;
+        case 3:
+          finished += 1;
+          break;
+        case 4:
+          deleted += 1;
+          break;
+        case 5:
+          pause_request += 1;
+          break;
+        case 6:
+          paused += 1;
+          break;
+      }
+    });
+    return [not_started,on_going,finished,deleted,pause_request,paused];
+ }
+
+
+ double getTaskCompletedPercent(){
+    int completed_task_count = 0;
+    jobModel.forEach((element) {
+      int status = int.parse(element.status);
+      if(status == 3){
+        completed_task_count += 1;
+      }
+    });
+
+    return completed_task_count/jobModel.length;
+ }
+
 }
