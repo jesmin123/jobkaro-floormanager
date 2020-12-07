@@ -36,7 +36,7 @@ class _AssignedItemState extends State<AssignedItem> {
           children: [
             Text(widget.item.regNo, style: AppFontStyle.labelTextStyle(APP_BLACK_COLOR),),
             SizedBox(height: 4),
-            Text('4'+ " "+ASSIGNED, style: AppFontStyle.labelTextStyle(APP_BLACK_COLOR),)
+            Text('${widget.item.assignedTechnicians.length} $ASSIGNED', style: AppFontStyle.labelTextStyle(APP_BLACK_COLOR),)
           ],
         ),
         trailing: Row(
@@ -51,7 +51,7 @@ class _AssignedItemState extends State<AssignedItem> {
           padding: 0,
           width:45,
           height: 45,
-            child: Center(child: Text('${widget.item.getTaskCompletedPercent().roundToDouble()}%', style: AppFontStyle.labelTextStyle3(APP_BLACK_COLOR),)),
+            child: Center(child: Text('${widget.item.getTaskCompletedPercent()*100}%', style: AppFontStyle.labelTextStyle4(APP_BLACK_COLOR),)),
           selectedStepSize: 4,
           roundedCap: (_, __) => true,
         ),

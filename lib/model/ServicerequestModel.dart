@@ -1,5 +1,6 @@
 
 import 'package:job_karo_floor_manager/model/JobModel.dart';
+import 'package:job_karo_floor_manager/model/TeamModel.dart';
 
 class ServiceRequestModel{
   String id;
@@ -12,6 +13,7 @@ class ServiceRequestModel{
   String timeofCompletion;
   String status;
   List<JobModel> jobModel = new List();
+  List<TeamModel> assignedTechnicians = new List();
 
   ServiceRequestModel({
       this.id,
@@ -23,7 +25,8 @@ class ServiceRequestModel{
       this.timeofCreation,
       this.timeofCompletion,
       this.status,
-      this.jobModel});
+      this.jobModel,
+  this.assignedTechnicians});
 
   factory ServiceRequestModel.fromJSON(Map<String,dynamic> json){
     try{
@@ -32,11 +35,18 @@ class ServiceRequestModel{
       jobJson.forEach((element) {
         jobModelTemp.add(JobModel.fromJSON(element));
       });
+
+      List<dynamic> assignedJson = json['technicians'];
+      List<TeamModel> assingedJsonTemp = new List();
+      assignedJson.forEach((element) {
+        assingedJsonTemp.add(TeamModel.fromJSON(element));
+      });
+
       return ServiceRequestModel(
           status: json['status'],id: json['id'],customerName: json['customer_name'],
           customerContact: json['contact_number'],regNo: json['reg_no'],make: json['make'],
         model:  json['model'],timeofCompletion: json['time_of_completion'],timeofCreation: json['time_of_creation'],
-        jobModel: jobModelTemp
+        jobModel: jobModelTemp, assignedTechnicians: assingedJsonTemp
       );
     }catch(ex){
       print(ex);

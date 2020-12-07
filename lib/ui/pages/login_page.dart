@@ -7,9 +7,9 @@ import 'package:job_karo_floor_manager/model/RespObj.dart';
 import 'package:job_karo_floor_manager/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../../utils/LoaderUtils.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
-ProgressDialog pr;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -21,31 +21,9 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _passwordController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-  ProgressDialog pr;
   @override
   Widget build(BuildContext context) {
     final UserProvider userProvider = Provider.of(context);
-
-    pr = new ProgressDialog(context);
-    pr.style(
-        message: 'Please Waiting...',
-        borderRadius: 4.0,
-        backgroundColor: Colors.white,
-        progressWidget: CircularProgressIndicator(),
-        elevation: 10.0,
-        insetAnimCurve: Curves.easeInOut,
-        progress: 0.0,
-        maxProgress: 100.0,
-        progressTextStyle: TextStyle(
-            color: Colors.black,
-            fontSize: 10.0,
-            fontWeight: FontWeight.w400,
-            fontFamily: "Exo"),
-        messageTextStyle: TextStyle(
-            color: Colors.black,
-            fontSize: 19.0,
-            fontWeight: FontWeight.w400,
-            fontFamily: "Exo"));
 
     return Scaffold(
         body: Form(
@@ -155,15 +133,15 @@ class _LoginPageState extends State<LoginPage> {
                           RespObj response = await userProvider.login(
                               _mobNoController.text, _passwordController.text);
                           if (response.getStatus()) {
-                            pr.show();
+                            Loader.getLoader(context).show();
                             Future.delayed(Duration(seconds: 3)).then((value) {
-                              pr.hide().whenComplete(() {
+                              Loader.getLoader(context).hide().whenComplete(() {
                                 Navigator.pushNamed(context, HOME_PAGE);
                               });
                             });
                           } else {
                             Fluttertoast.showToast(
-                              msg: response.msg,
+                              msg: 'Mobile No. or Password is Wrong',
                               toastLength: Toast.LENGTH_SHORT,
                               gravity: ToastGravity.BOTTOM,
                               timeInSecForIosWeb: 1,
@@ -171,7 +149,6 @@ class _LoginPageState extends State<LoginPage> {
                               textColor: Colors.white,
                               fontSize: 16.0,
                             );
-                            //TODO Provide message
                           }
                         }
                       },

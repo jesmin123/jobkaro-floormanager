@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:job_karo_floor_manager/constants/app_font_style.dart';
 import 'package:job_karo_floor_manager/constants/colors.dart';
@@ -13,6 +14,7 @@ import 'package:job_karo_floor_manager/model/TeamModel.dart';
 import 'package:job_karo_floor_manager/provider/job_card_provider.dart';
 import 'package:job_karo_floor_manager/provider/new_task_provider.dart';
 import 'package:job_karo_floor_manager/provider/user_provider.dart';
+import 'package:job_karo_floor_manager/utils/LoaderUtils.dart';
 import 'package:provider/provider.dart';
 
 import 'EmpAvatarWidget.dart';
@@ -32,6 +34,7 @@ class _AddNewItemState extends State<AddNewItem> {
   TextEditingController _dmsController = TextEditingController();
   TextEditingController _erpController = TextEditingController();
   ScrollController _scrollController = ScrollController();
+  TextEditingController _commentController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
   final singleValidator = MultiValidator([
@@ -49,7 +52,7 @@ class _AddNewItemState extends State<AddNewItem> {
     // Build a Form widget using the _formKey created above.
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: SingleChildScrollView(
+      child: newTaskProvider.isrequestSumitting?Text('loading...'):SingleChildScrollView(
         controller: _scrollController,
         child: Form(
           key: _formKey,
@@ -110,6 +113,12 @@ class _AddNewItemState extends State<AddNewItem> {
               TextFormField(
                 controller: _erpController,
                 decoration: InputDecoration(labelText: 'ERP Job Card Number*'),
+                validator: singleValidator,
+              ),
+              SizedBox(height: 14),
+              TextFormField(
+                controller: _commentController,
+                decoration: InputDecoration(labelText: 'Comment*'),
                 validator: singleValidator,
               ),
               SizedBox(height: 14),
@@ -230,25 +239,77 @@ class _AddNewItemState extends State<AddNewItem> {
                     if (_formKey.currentState.validate()) {
 
                       if(newTaskProvider.selectedEmployees.length==0 || newTaskProvider.selectedTask.length==0){
-                        //TODO Show a toast message
+                        Toast('Missing Team or Task');
                         return;
                       }
 
-                      //TODO Add a loader
+                      Loader.getLoader(context).show();
 
-                      RespObj response = await newTaskProvider.CreateRequest(
-                          _modelController.text,
-                          _makeController.text,
-                          _regNoController.text,
-                          _customerNameController.text,
-                          _customerContactController.text,
-                          userProvider
-                      );
+                      Loader.getLoader(context).show();
+                      Future.delayed(Duration(seconds: 3)).then((value) {
+                        Loader.getLoader(context).hide().whenComplete(() async {
+                          RespObj response = await newTaskProvider.CreateRequest(
+                              _modelController.text,
+                              _makeController.text,
+                              _regNoController.text,
+                              _customerNameController.text,
+                              _customerContactController.text,
+                              _dmsController.text,
+                              _erpController.text,
+                              _commentController.text,
+                              userProvider
+                          );
+                          if(response.getStatus()){
+                            jobCardProvider.getAllServiceRequests(userProvider.user.jwt);
+                            return showDialog(
+                                context: context,
+                                builder: (BuildContext context)
+                                {
+                                  return AlertDialog(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16)),
 
-                      if(response.getStatus()){
-                          jobCardProvider.getAllServiceRequests(userProvider.user.jwt);
-                          clearFields(newTaskProvider);
-                      }
+                                    title: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                      children: [
+                                        Text("Details Added Successfull",
+                                          style: AppFontStyle.headingTextStyle(
+                                              APP_BLACK_COLOR),
+                                        ),
+                                        SizedBox(height: LINE_HEIGHT * 0.5),
+                                        Divider(),
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                          children: [
+                                            FlatButton(
+                                              onPressed: () {
+                                                clearFields(newTaskProvider);
+                                                Navigator.pushNamed(context, HOME_PAGE);
+                                              },
+                                              child: Text(
+                                                "ok",
+                                                style:
+                                                AppFontStyle.headingTextStyle(
+                                                    PRIMARY_COLOR, textSize: 16.0),
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ).build(context);
+                                }
+                            );
+                          }
+                          else Toast("Something wrong in our details");
+
+                        });
+                      });
+
+
+
                     }
                   },
                   shape: RoundedRectangleBorder(
@@ -490,11 +551,26 @@ class _AddNewItemState extends State<AddNewItem> {
     _customerContactController.text = "";
     _dmsController.text = "";
     _erpController.text = "";
+    _commentController.text = "";
 
     newtaskProvider.selectedEmployees = [];
     newtaskProvider.selectedTask = [];
 
     _scrollController.animateTo(_scrollController.initialScrollOffset, duration: Duration(seconds: 1), curve: Curves.ease);
   }
+
+  Toast(String msg)
+  {
+    return Fluttertoast.showToast(
+      msg: msg,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: APP_RED_COLOR,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
+
+
 
 }

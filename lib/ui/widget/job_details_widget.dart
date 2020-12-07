@@ -4,10 +4,16 @@ import 'package:job_karo_floor_manager/constants/app_font_style.dart';
 import 'package:job_karo_floor_manager/constants/colors.dart';
 import 'package:job_karo_floor_manager/constants/dimen.dart';
 import 'package:job_karo_floor_manager/constants/strings.dart';
+import 'package:job_karo_floor_manager/model/TeamModel.dart';
 import 'package:job_karo_floor_manager/provider/job_card_provider.dart';
 import 'package:provider/provider.dart';
 
 class JobDetailsWidget extends StatefulWidget {
+  TeamModel employeeDetails;
+
+
+  JobDetailsWidget(this.employeeDetails);
+
   @override
   _JobDetailsWidgetState createState() => _JobDetailsWidgetState();
 }
@@ -24,7 +30,7 @@ class _JobDetailsWidgetState extends State<JobDetailsWidget> {
        backgroundImage: CachedNetworkImageProvider('https://www.adbasis.com/images/divita-a65623c8.jpg'),
      ),
      Text(
-       'Arun Raj',
+       widget.employeeDetails.name,
        style: AppFontStyle.labelTextStyle2(APP_BLACK_COLOR),
      ),
      Text(

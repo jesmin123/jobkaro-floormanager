@@ -66,9 +66,19 @@ class NewtaskProvider extends ChangeNotifier {
     selectedTask = selectedTaskTemp;
   }
 
-  Future <RespObj> CreateRequest(String model, String make, String regNo, String customerName, String customerContact,UserProvider userProvider)async {
-    String route = '';
+  bool _isrequestSumitting = false;
 
+
+  bool get isrequestSumitting => _isrequestSumitting;
+
+  set isrequestSumitting(bool value) {
+    _isrequestSumitting = value;
+    notifyListeners();
+  }
+
+  Future <RespObj> CreateRequest(String model, String make, String regNo, String customerName, String customerContact, String DMS, String ERP, String comment, UserProvider userProvider)async {
+    String route = '';
+    isrequestSumitting = true;
     List<Map> tasks = [];
     _selectedTask.forEach((element) {
       tasks.add({'job_id':element.id});
@@ -79,6 +89,7 @@ class NewtaskProvider extends ChangeNotifier {
       technicians.add({'technician_id':element.id});
     });
 
+
     Map<String, dynamic> createRequest = {
       "function": "create_request",
       "model": "$model",
@@ -86,6 +97,9 @@ class NewtaskProvider extends ChangeNotifier {
       "reg_no": "$regNo",
       "customer_name": "$customerName",
       "contact_number": "$customerContact",
+      "dms" : "$DMS",
+      "erp" : "$ERP",
+      "comment" : "$comment",
       'user_id':userProvider.user.id,
       "access_token":"3T97X",
       'tasks':tasks,
@@ -94,6 +108,7 @@ class NewtaskProvider extends ChangeNotifier {
     String jsonData = jsonEncode(createRequest);
 
     RespObj response = await api.postData(route, mBody: jsonData,header: userProvider.user.jwt);
+    isrequestSumitting = false;
     return response;
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:job_karo_floor_manager/constants/app_font_style.dart';
 import 'package:job_karo_floor_manager/constants/colors.dart';
 import 'package:job_karo_floor_manager/constants/dimen.dart';
@@ -7,6 +8,7 @@ import 'package:job_karo_floor_manager/provider/job_card_provider.dart';
 import 'package:job_karo_floor_manager/provider/user_provider.dart';
 import 'package:job_karo_floor_manager/ui/widget/job_details_widget.dart';
 import 'package:job_karo_floor_manager/ui/widget/tasks_widget.dart';
+import 'package:job_karo_floor_manager/utils/LoaderUtils.dart';
 import 'package:provider/provider.dart';
 import '../../model/ServicerequestModel.dart';
 import '../../model/JobModel.dart';
@@ -44,39 +46,21 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                     ),
                     ListTile(
                       title: Text('Team', style: AppFontStyle.headingTextStyle(APP_BLACK_COLOR,textSize: 20.0),),
-                      trailing: Text('4 Members', style: AppFontStyle.labelTextStyle2(APP_GREY_COLOR),),
+                      trailing: Text('${service.assignedTechnicians.length} Members', style: AppFontStyle.labelTextStyle2(APP_GREY_COLOR),),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 12),
-                      child: Container(
+                      child: service.assignedTechnicians.length==0? Text('No Employee Assigned', style: AppFontStyle.labelTextStyle(APP_BLACK_COLOR),):Container(
                         height: 100,
                         child: ListView.separated(
                           separatorBuilder: (_,pos)=>SizedBox(width: 8,),
-                            itemCount: 17,
+                            itemCount: service.assignedTechnicians.length,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (_,pos){
-                              if(pos==0){
-                                return Column(
-                                  children: [
-                                    CircleAvatar(
-                                      backgroundColor: PRIMARY_COLOR,
-                                      radius: 32,
-                                      child: Icon(
-                                        Icons.person_add_alt_1_outlined,
-                                        color: APP_WHITE_COLOR,
-                                        size: 24,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Add new',
-                                      style: AppFontStyle.labelTextStyle2(APP_BLACK_COLOR),
-                                    ),
-                                  ],
-                                );
-                              }else{
-                                return JobDetailsWidget();
+
+                                return JobDetailsWidget(service.assignedTechnicians[pos]);
                               }
-                            }
+
                         ),
                       ),
                     ),
@@ -174,12 +158,20 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                 alignment: Alignment.bottomCenter,
                 child: RaisedButton(
                   onPressed: () async {
-                    //todo add loaders
-                   bool status = await jobCardProvider.markServiceAsCompleted(userProvider.user.jwt , service.id);
-                   // todo show toast message
-                   if(status){
-                     Navigator.pop(context);
-                   }
+                    Loader.getLoader(context).show();
+                    Future.delayed(Duration(seconds: 3)).then((value) {
+                      Loader.getLoader(context).hide().whenComplete(() async {
+                        bool status = await jobCardProvider.markServiceAsCompleted(userProvider.user.jwt , service.id);
+                        if(status){
+                          Toast('Case Closed Successfully');
+                          Navigator.pop(context);
+                        }
+                        else{
+                          Toast('Failed to Complete Case');
+                        }
+                      });
+                    });
+
 
                   },
                   shape: RoundedRectangleBorder(
@@ -204,6 +196,17 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
             ],
           )
       ),
+    );
+  }
+  Toast(String msg)
+  {
+    return Fluttertoast.showToast(
+      msg: msg,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: APP_RED_COLOR,
+      textColor: Colors.white,
+      fontSize: 16.0,
     );
   }
 }
