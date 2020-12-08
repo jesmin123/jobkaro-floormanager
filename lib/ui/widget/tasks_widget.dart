@@ -36,22 +36,6 @@ class _TasksWidgetState extends State<TasksWidget> {
         children: [
           Text('${widget.item.getTimeTaken()}:00 / ${widget.item.task.minute}:00'
               ' m',style: AppFontStyle.headingTextStyle(PRIMARY_COLOR, textSize: 14.0)),
-          SizedBox(width: LINE_HEIGHT*0.5,),
-          PopupMenuButton(
-            icon: Icon(Icons.edit_road_outlined),
-              // ignore: missing_return
-              itemBuilder: (context,)=>[
-                PopupMenuItem(child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(icon: Icon(Icons.loop_outlined), onPressed: (){}),
-                    SizedBox(width: ICON_WIDTH,),
-                    Text(RE_ASSIGN_JOB, style: AppFontStyle.headingTextStyle(APP_BLACK_COLOR, textSize: 16.0),)
-                  ],
-                )
-                )
-              ]
-              )
         ],
       ),
     );

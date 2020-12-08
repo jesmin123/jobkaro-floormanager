@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:job_karo_floor_manager/constants/app_font_style.dart';
 import 'package:job_karo_floor_manager/constants/colors.dart';
 import 'package:job_karo_floor_manager/constants/dimen.dart';
 import 'package:job_karo_floor_manager/model/PauseTaskModel.dart';
@@ -17,7 +18,7 @@ class _PauseRequestTabState extends State<PauseRequestTab> {
   Widget build(BuildContext context) {
 
     JobCardProvider jobCardProvider  = Provider.of(context);
-    return ListView.separated(shrinkWrap: true,
+    return jobCardProvider.pauseRequests.length==0?Center(child: Text('No Data',style: AppFontStyle.bodyTextStyle(Colors.grey,textSize: 22.0),)):ListView.separated(shrinkWrap: true,
         scrollDirection: Axis.vertical,
         itemBuilder: (context,position){
           PauseTaskModel model = jobCardProvider.pauseRequests[position];

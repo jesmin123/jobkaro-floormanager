@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_greetings/flutter_greetings.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:job_karo_floor_manager/constants/dimen.dart';
 import 'package:job_karo_floor_manager/constants/strings.dart';
 import 'package:job_karo_floor_manager/provider/job_card_provider.dart';
@@ -183,6 +184,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                                   VerticalDivider(width: 25,thickness: 16,),
                                   FlatButton(
                                       onPressed: (){
+
                                         logOut(userProvider);
                                         Navigator.pushNamed(context, LOGIN_PAGE);
                                       },

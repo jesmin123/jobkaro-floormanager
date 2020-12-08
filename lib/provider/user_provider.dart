@@ -92,6 +92,21 @@ class UserProvider extends ChangeNotifier{
   }
 
 
+ Future<bool> changePassword(String newPassword) async {
+    String route ='';
+    Map<String, dynamic> sendData = {
+      "function":"change_password",
+      "password":"$newPassword"
+    };
+
+    String jsonData = jsonEncode(sendData);
+    RespObj response = await api.postData(route, mBody: jsonData, header: user.jwt);
+    return response.getStatus();
+
+ }
+
+
+
 
 }
 
