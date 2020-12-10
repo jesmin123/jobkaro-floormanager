@@ -22,13 +22,13 @@ const RE_ASSIGN_JOB = 'Re-assign job';
 const MARK_COMPLETED = 'Mark Completed';
 const OVER_TIME ='Overtime';
 const USERID ='User ID';
-const PASSWORD ='Passsword';
+const PASSWORD ='Password';
 const TECHNICIAN ='Technician';
 
 
 const CHANGE_PASSWORD ='Change Password';
 const OLD_PASSWORD ='Old Password';
 const NEW_PASSWORD = 'New Password';
-const CONFORM_PASSWORD ='Conform Password';
+const CONFORM_PASSWORD ='Confirm Password';
 
 
