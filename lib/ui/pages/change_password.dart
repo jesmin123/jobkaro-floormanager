@@ -93,7 +93,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         return null;
                       },
                       controller: _newPasswordController,
+                      obscureText: !userProvider.passwordToggle,
                       decoration: InputDecoration(
+                          suffixIcon: userProvider.passwordToggle?IconButton(icon: Icon(Icons.visibility), onPressed: (){userProvider.passwordToggle = false;},):
+                          IconButton(icon: Icon(Icons.visibility_off), onPressed: (){userProvider.passwordToggle = true;}),
                         focusedErrorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
                           borderSide:
@@ -122,6 +125,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     ),
                     SizedBox(height: LINE_HEIGHT*0.8,),
                     TextFormField(
+                      obscureText: !userProvider.passwordToggle,
                       validator: (value){
                         if(value.isEmpty){
                           return 'Enter your new password';
@@ -133,6 +137,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       },
                       controller: _conformPasswordController,
                       decoration: InputDecoration(
+                        suffixIcon: userProvider.passwordToggle?IconButton(icon: Icon(Icons.visibility), onPressed: (){userProvider.passwordToggle = false;},):
+                            IconButton(icon: Icon(Icons.visibility_off), onPressed: (){userProvider.passwordToggle = true;}),
                         focusedErrorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
                           borderSide:
