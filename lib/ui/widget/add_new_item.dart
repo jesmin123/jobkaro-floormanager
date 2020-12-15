@@ -389,7 +389,7 @@ class _AddNewItemState extends State<AddNewItem> {
                     );
                   },
                   shrinkWrap: true,
-                  itemCount: jobCardProvider.allEmployees.length,
+                  itemCount: jobCardProvider.allTasks.length,
                   physics: NeverScrollableScrollPhysics(),
                 ),
                 SizedBox(
