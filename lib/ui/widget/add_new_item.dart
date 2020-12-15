@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -37,8 +38,14 @@ class _AddNewItemState extends State<AddNewItem> {
   TextEditingController _commentController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+
   final singleValidator = MultiValidator([
     RequiredValidator(errorText: 'this field is required'),
+  ]);
+  final multiValidator = MultiValidator([
+    RequiredValidator(errorText: 'this field is required'),
+    MinLengthValidator(10, errorText: 'Phone Number must be 10 digits'),
+    PatternValidator('0-9', errorText: 'Phone Number must be in digits')
   ]);
 
   get checkboxValue => null;
@@ -48,6 +55,8 @@ class _AddNewItemState extends State<AddNewItem> {
     final NewtaskProvider newTaskProvider = Provider.of(context);
     final UserProvider userProvider = Provider.of(context);
     JobCardProvider jobCardProvider = Provider.of(context);
+
+
 
     // Build a Form widget using the _formKey created above.
     return Padding(
@@ -95,13 +104,35 @@ class _AddNewItemState extends State<AddNewItem> {
               TextFormField(
                 controller: _customerNameController,
                 decoration: InputDecoration(labelText: "Customer Name*"),
-                validator: singleValidator,
+                inputFormatters: [],
+                validator:(value){
+                   final  validCharacters = RegExp('a-zA-Z');
+                   if(!(validCharacters.hasMatch(value)))
+                     {
+                       return 'Special characters are not allowed';
+                     }
+                   else{
+                     return null;
+                   }
+                }
               ),
               SizedBox(height: 14),
               TextFormField(
+
                 controller: _customerContactController,
-                decoration: InputDecoration(labelText: "Customer Contact*"),
-                validator: singleValidator,
+                decoration: InputDecoration(labelText: "Customer Contact*", prefixText: "+91"),
+                keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly],
+                validator: (value){
+                  if(value.isEmpty){
+                    return 'this field is requried';
+                  }
+                  else if(value!=10){
+                    return 'Phone Number must be 10 digits';
+                  }
+                  return null;
+                },
               ),
               SizedBox(height: 14),
               TextFormField(

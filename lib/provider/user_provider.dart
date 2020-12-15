@@ -15,7 +15,7 @@ class UserProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<RespObj> login(String mobNo,String password) async {
+  Future<RespObj> login({String mobNo,String password}) async {
     String route = '';
     Map<String,dynamic> sendData = {
       "function":"login",

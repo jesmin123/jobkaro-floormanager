@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:job_karo_floor_manager/constants/app_font_style.dart';
 import 'package:job_karo_floor_manager/constants/colors.dart';
 import 'package:job_karo_floor_manager/constants/dimen.dart';
 import 'package:job_karo_floor_manager/constants/strings.dart';
 import 'package:job_karo_floor_manager/model/RespObj.dart';
 import 'package:job_karo_floor_manager/provider/user_provider.dart';
+import 'package:job_karo_floor_manager/utils/LoaderUtils.dart';
 import 'package:provider/provider.dart';
 
 class ChangePasswordPage extends StatefulWidget {
@@ -44,54 +46,57 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 child: Column(
 
                   children: [
-                    TextFormField(
-                      controller: _oldPasswordController,
-                      validator: (value){
-                        if(value.isEmpty){
-                          return 'Enter your old password';
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          borderSide:
-                          BorderSide(width: 0.5, color: APP_RED_COLOR),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          borderSide:
-                          BorderSide(width: 0.5, color: APP_RED_COLOR),
-                        ),
-                          labelText: OLD_PASSWORD,
-                        labelStyle: TextStyle(fontFamily: 'Exo',fontSize: 14),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide:
-                            BorderSide(width: 0.5, color: PRIMARY_COLOR),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide:
-                            BorderSide(width: 0.5, color: PRIMARY_COLOR),
-                          ),
-                        contentPadding:
-                        EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                    ),
-                    ),
-                    SizedBox(height: LINE_HEIGHT*0.8,),
+                    // TextFormField(
+                    //   controller: _oldPasswordController,
+                    //   validator: (value){
+                    //     if(value.isEmpty){
+                    //       return 'Enter your old password';
+                    //     }
+                    //     return null;
+                    //   },
+                    //   decoration: InputDecoration(
+                    //     focusedErrorBorder: OutlineInputBorder(
+                    //       borderRadius: BorderRadius.circular(16),
+                    //       borderSide:
+                    //       BorderSide(width: 0.5, color: APP_RED_COLOR),
+                    //     ),
+                    //     errorBorder: OutlineInputBorder(
+                    //       borderRadius: BorderRadius.circular(16),
+                    //       borderSide:
+                    //       BorderSide(width: 0.5, color: APP_RED_COLOR),
+                    //     ),
+                    //       labelText: OLD_PASSWORD,
+                    //     labelStyle: TextStyle(fontFamily: 'Exo',fontSize: 14),
+                    //       enabledBorder: OutlineInputBorder(
+                    //         borderRadius: BorderRadius.circular(16),
+                    //         borderSide:
+                    //         BorderSide(width: 0.5, color: PRIMARY_COLOR),
+                    //       ),
+                    //       focusedBorder: OutlineInputBorder(
+                    //         borderRadius: BorderRadius.circular(16),
+                    //         borderSide:
+                    //         BorderSide(width: 0.5, color: PRIMARY_COLOR),
+                    //       ),
+                    //     contentPadding:
+                    //     EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                    // ),
+                    // ),
+                  //  SizedBox(height: LINE_HEIGHT*0.8,),
                     TextFormField(
                       validator: (value){
                         if(value.isEmpty){
                           return 'Enter a new password';
                         }
                         else if(value.length<=5){
-                          return 'Password must be at least 5 characters';
+                          return 'Your password must contain atleast 5 characters';
                         }
                         return null;
                       },
                       controller: _newPasswordController,
+                      obscureText: !userProvider.passwordToggle,
                       decoration: InputDecoration(
+                          suffixIcon: userProvider.passwordToggle?IconButton(icon: Icon(Icons.visibility), onPressed: (){userProvider.passwordToggle = false;},):
+                          IconButton(icon: Icon(Icons.visibility_off), onPressed: (){userProvider.passwordToggle = true;}),
                         focusedErrorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
                           borderSide:
@@ -120,6 +125,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     ),
                     SizedBox(height: LINE_HEIGHT*0.8,),
                     TextFormField(
+                      obscureText: !userProvider.passwordToggle,
                       validator: (value){
                         if(value.isEmpty){
                           return 'Enter your new password';
@@ -131,6 +137,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       },
                       controller: _conformPasswordController,
                       decoration: InputDecoration(
+                        suffixIcon: userProvider.passwordToggle?IconButton(icon: Icon(Icons.visibility), onPressed: (){userProvider.passwordToggle = false;},):
+                            IconButton(icon: Icon(Icons.visibility_off), onPressed: (){userProvider.passwordToggle = true;}),
                         focusedErrorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
                           borderSide:
@@ -162,9 +170,28 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       onPressed: () async {
                         if(_formKey.currentState.validate()){
                           bool response = await userProvider.changePassword(_conformPasswordController.text) ;
-                          if(response){
-                           showDialogBox();
-                          }
+                          Loader.getLoader(context).show();
+                          Future.delayed(Duration(seconds: 3)).then((value) {
+                            Loader.getLoader(context).hide().whenComplete(() {
+                              if(response){
+                                return showDialogBox();
+                              }
+                              else
+                              {
+                                Fluttertoast.showToast(
+                                  msg: 'Something wrong',
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor: PRIMARY_COLOR,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0,
+                                );
+                              }
+
+                            });
+                          });
+
 
                         }
                       },
@@ -201,7 +228,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 ),
                 SizedBox(height: LINE_HEIGHT * 0.5),
                 Text(
-                  "Are you want to Logout",
+                  "Are you sure you want to Logout",
                   style: AppFontStyle.labelTextStyle(
                       APP_BLACK_COLOR),
                   textAlign: TextAlign.center,
