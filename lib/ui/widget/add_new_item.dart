@@ -107,9 +107,9 @@ class _AddNewItemState extends State<AddNewItem> {
                 inputFormatters: [],
                 validator:(value){
                    final  validCharacters = RegExp('a-zA-Z');
-                   if(!(validCharacters.hasMatch(value)))
+                   if(value.isEmpty)
                      {
-                       return 'Special characters are not allowed';
+                       return 'Please enter customer name';
                      }
                    else{
                      return null;
@@ -128,7 +128,7 @@ class _AddNewItemState extends State<AddNewItem> {
                   if(value.isEmpty){
                     return 'this field is requried';
                   }
-                  else if(value!=10){
+                  else if(value.length!=10){
                     return 'Phone Number must be 10 digits';
                   }
                   return null;

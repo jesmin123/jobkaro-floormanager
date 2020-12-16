@@ -64,8 +64,6 @@ class JobModel{
       }
       int timeElapsed = endTimeDt.difference(startTimeDt).inMinutes;
       timetaken = (timeElapsed-pauseMin).toString();
-    }else if(startTime!=null && overTime=="1"){
-      timetaken = task.minute;
     }
     else if(startTime!=null){
       DateTime startTimeDt = DateTime.parse(startTime);
@@ -77,7 +75,10 @@ class JobModel{
       int timeElapsed = endTimeDt.difference(startTimeDt).inMinutes;
       timetaken = (timeElapsed-pauseMin).abs().toString();
       print("Time of taken ::; ${ timetaken}");
-    }else{
+    }else if(startTime!=null && overTime=="1"){
+      timetaken = task.minute;
+    }
+   else{
       timetaken = "00";
     }
 

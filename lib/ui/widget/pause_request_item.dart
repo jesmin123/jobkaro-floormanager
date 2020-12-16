@@ -50,7 +50,7 @@ class _PauseRequestItemState extends State<PauseRequestItem> {
             child: Row(
               children: [
                 Text('Reason : ', style: AppFontStyle.labelTextStyle2(APP_BLACK_COLOR),),
-                Text('${widget.model.pauseLogModel.reason}',  style: AppFontStyle.labelTextStyle2(APP_BLACK_COLOR))
+                Text('${widget.model.pauseLogModel!=null?widget.model.pauseLogModel.reason:"No reason"}',  style: AppFontStyle.labelTextStyle2(APP_BLACK_COLOR))
               ],
             ),
           ),
