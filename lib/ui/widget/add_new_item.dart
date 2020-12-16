@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -363,6 +364,7 @@ class _AddNewItemState extends State<AddNewItem> {
   }
 
   showTaskDialog(){
+    SchedulerBinding.instance.addPostFrameCallback((_) {
     showDialog(
         useSafeArea: true,
         context: context,
@@ -370,208 +372,218 @@ class _AddNewItemState extends State<AddNewItem> {
           final JobCardProvider jobCardProvider = Provider.of(context);
           final NewtaskProvider newTaskProvider = Provider.of(context);
           return AlertDialog(
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: LINE_HEIGHT * 2,
-                ),
-                Text('Assign time for task',
-                    style: AppFontStyle.headingTextStyle(
-                        APP_BLACK_COLOR)),
-                SizedBox(
-                  height: LINE_HEIGHT,
-                ),
-                ListView.builder(
-                  itemBuilder: (context, pos) {
-                    TaskModel task  = jobCardProvider.allTasks[pos];
-                    return CheckboxListTile(
-                      value: newTaskProvider.checkTaskExists(task),
-                      subtitle: Column(
-                        mainAxisSize:
-                        MainAxisSize.min,
-                        crossAxisAlignment:
-                        CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            task.minute+" Minutes",
-                            style: AppFontStyle
-                                .headingTextStyle(
-                                APP_BLACK_COLOR,
-                                textSize: 12.0),
-                          ),
-                        ],
-                      ),
-                      title: Text(
-                        task.name,
-                        style: AppFontStyle
-                            .headingTextStyle(
-                            APP_BLACK_COLOR,
-                            textSize: 16.0),
-                      ),
-                      onChanged: (val){
-                        if(val){
-                          newTaskProvider.addToSelectedTask(task);
-                        }else{
-                          newTaskProvider.removeFromSelectedTask(task);
-                        }
-                      },
-                    );
-                  },
-                  shrinkWrap: true,
-                  itemCount: jobCardProvider.allTasks.length,
-                  physics: NeverScrollableScrollPhysics(),
-                ),
-                SizedBox(
-                  height: LINE_HEIGHT,
-                ),
-                SizedBox(
-                  height: LINE_HEIGHT * 2,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 100,
-                      child: RaisedButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        color: PRIMARY_COLOR,
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.circular(32)),
-                        child: Row(
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: LINE_HEIGHT * 2,
+                  ),
+                  Text('Assign time for task',
+                      style: AppFontStyle.headingTextStyle(
+                          APP_BLACK_COLOR)),
+                  SizedBox(
+                    height: LINE_HEIGHT,
+                  ),
+                  ListView.builder(
+                    itemBuilder: (context, pos) {
+                      TaskModel task  = jobCardProvider.allTasks[pos];
+                      return CheckboxListTile(
+                        value: newTaskProvider.checkTaskExists(task),
+                        subtitle: Column(
+                          mainAxisSize:
+                          MainAxisSize.min,
+                          crossAxisAlignment:
+                          CrossAxisAlignment.start,
                           children: [
-                            Icon(
-                              Icons.close,
-                              color: APP_WHITE_COLOR,
-                              size: ICON_SIZE*0.7,
+                            Text(
+                              task.minute+" Minutes",
+                              style: AppFontStyle
+                                  .headingTextStyle(
+                                  APP_BLACK_COLOR,
+                                  textSize: 12.0),
                             ),
-                            Text('| Close',
-                                style: AppFontStyle
-                                    .labelTextStyle2(
-                                    APP_WHITE_COLOR)),
                           ],
                         ),
+                        title: Text(
+                          task.name,
+                          style: AppFontStyle
+                              .headingTextStyle(
+                              APP_BLACK_COLOR,
+                              textSize: 16.0),
+                        ),
+                        onChanged: (val){
+                          if(val){
+                            newTaskProvider.addToSelectedTask(task);
+                          }else{
+                            newTaskProvider.removeFromSelectedTask(task);
+                          }
+                        },
+                      );
+                    },
+                    shrinkWrap: true,
+                    itemCount: jobCardProvider.allTasks.length,
+                    physics: NeverScrollableScrollPhysics(),
+                  ),
+                  SizedBox(
+                    height: LINE_HEIGHT,
+                  ),
+                  SizedBox(
+                    height: LINE_HEIGHT * 2,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 100,
+                        child: RaisedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          color: PRIMARY_COLOR,
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.circular(32)),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.close,
+                                color: APP_WHITE_COLOR,
+                                size: ICON_SIZE*0.7,
+                              ),
+                              Text('| Close',
+                                  style: AppFontStyle
+                                      .labelTextStyle2(
+                                      APP_WHITE_COLOR)),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           );
         });
+      });
   }
 
   showEmployeeDialog(){
-    showDialog(
-        useSafeArea: true,
-        context: context,
-        builder: (context) {
-          final JobCardProvider jobCardProvider = Provider.of(context);
-          final NewtaskProvider newTaskProvider = Provider.of(context);
-          return AlertDialog(
-            scrollable: true,
-            content: Column(
-              children: [
-                Text('Assign Employee for the JobCard', style: AppFontStyle.headingTextStyle(
-                    APP_BLACK_COLOR), textAlign: TextAlign.center,),
-                SizedBox(height: LINE_HEIGHT,),
-                Stack(
-                  children: [
-                    ListView.builder(
-                      itemBuilder: (context, pos) {
-                        TeamModel technician  = jobCardProvider.allEmployees[pos];
-                        return CheckboxListTile(
-                          value: newTaskProvider.checkTechicianExists(technician),
-                          subtitle: Column(
-                            mainAxisSize:
-                            MainAxisSize.min,
-                            crossAxisAlignment:
-                            CrossAxisAlignment.start,
-                            children: [
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      showDialog(
+          useSafeArea: true,
+          context: context,
+          builder: (context) {
+            final JobCardProvider jobCardProvider = Provider.of(context);
+            final NewtaskProvider newTaskProvider = Provider.of(context);
+            return AlertDialog(
+              scrollable: true,
+              content: Column(
+                children: [
+                  Text('Assign Employee for the JobCard',
+                    style: AppFontStyle.headingTextStyle(
+                        APP_BLACK_COLOR), textAlign: TextAlign.center,),
+                  SizedBox(height: LINE_HEIGHT,),
+                  Stack(
+                    children: [
+                      ListView.builder(
+                        itemBuilder: (context, pos) {
+                          TeamModel technician = jobCardProvider
+                              .allEmployees[pos];
+                          return CheckboxListTile(
+                            value: newTaskProvider.checkTechicianExists(
+                                technician),
+                            subtitle: Column(
+                              mainAxisSize:
+                              MainAxisSize.min,
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              children: [
 
-                              Text(
-                                TECHNICIAN,
-                                style: AppFontStyle
-                                    .headingTextStyle(
-                                    APP_BLACK_COLOR,
-                                    textSize: 12.0),
-                              ),
-                              Text(
-                                'Emp Code :' +
-                                    technician.empCode,
-                                style: AppFontStyle
-                                    .labelTextStyle4(
-                                    APP_BLACK_COLOR),
-                              ),
-                              Text(
-                                  'Mobile No :' +technician.mobile,
+                                Text(
+                                  TECHNICIAN,
+                                  style: AppFontStyle
+                                      .headingTextStyle(
+                                      APP_BLACK_COLOR,
+                                      textSize: 12.0),
+                                ),
+                                Text(
+                                  'Emp Code :' +
+                                      technician.empCode,
                                   style: AppFontStyle
                                       .labelTextStyle4(
-                                      APP_BLACK_COLOR)),
+                                      APP_BLACK_COLOR),
+                                ),
+                                Text(
+                                    'Mobile No :' + technician.mobile,
+                                    style: AppFontStyle
+                                        .labelTextStyle4(
+                                        APP_BLACK_COLOR)),
+                              ],
+                            ),
+                            title: Text(
+                              technician.name,
+                              style: AppFontStyle
+                                  .headingTextStyle(
+                                  APP_BLACK_COLOR,
+                                  textSize: 16.0),
+                            ),
+                            onChanged: (val) {
+                              if (val) {
+                                newTaskProvider.addToSelectedEmployees(
+                                    technician);
+                              } else {
+                                newTaskProvider.removeFromSelectedEmployees(
+                                    technician);
+                              }
+                            },
+                          );
+                        },
+                        shrinkWrap: true,
+                        itemCount: jobCardProvider.allEmployees.length,
+                        physics: NeverScrollableScrollPhysics(),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: LINE_HEIGHT,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 100,
+                        child: RaisedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          color: PRIMARY_COLOR,
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.circular(32)),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.close,
+                                color: APP_WHITE_COLOR,
+                                size: ICON_SIZE * 0.7,
+                              ),
+                              Text('| Close',
+                                  style: AppFontStyle
+                                      .labelTextStyle2(
+                                      APP_WHITE_COLOR)),
                             ],
                           ),
-                          title: Text(
-                            technician.name,
-                            style: AppFontStyle
-                                .headingTextStyle(
-                                APP_BLACK_COLOR,
-                                textSize: 16.0),
-                          ),
-                          onChanged: (val){
-                            if(val){
-                              newTaskProvider.addToSelectedEmployees(technician);
-                            }else{
-                              newTaskProvider.removeFromSelectedEmployees(technician);
-                            }
-                          },
-                        );
-                      },
-                      shrinkWrap: true,
-                      itemCount: jobCardProvider.allEmployees.length,
-                      physics: NeverScrollableScrollPhysics(),
-                    ),
-                  ],
-                ),
-                SizedBox(height: LINE_HEIGHT,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 100,
-                      child: RaisedButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        color: PRIMARY_COLOR,
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.circular(32)),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.close,
-                              color: APP_WHITE_COLOR,
-                              size: ICON_SIZE*0.7,
-                            ),
-                            Text('| Close',
-                                style: AppFontStyle
-                                    .labelTextStyle2(
-                                    APP_WHITE_COLOR)),
-                          ],
                         ),
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
 
-              ],
-            ),
-          );
-        });
+                ],
+              ),
+            );
+          });
+    });
   }
 
   void clearFields(NewtaskProvider newtaskProvider) {
