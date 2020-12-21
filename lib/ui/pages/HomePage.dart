@@ -3,7 +3,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_greetings/flutter_greetings.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:job_karo_floor_manager/constants/dimen.dart';
 import 'package:job_karo_floor_manager/constants/strings.dart';
 import 'package:job_karo_floor_manager/provider/job_card_provider.dart';
@@ -37,12 +36,22 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     super.initState();
     getSupportingData();
     _tabController = new TabController(vsync: this, length:4);
+    _tabController.addListener(_handleTabSelection);
   }
 
   getSupportingData(){
 
     final UserProvider userProvider = Provider.of(context,listen: false);
     final NotificationProvider notificationProvider = Provider.of(context,listen: false);
+    final JobCardProvider jobCardProvider = Provider.of(context,listen: false);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      jobCardProvider.initData(userProvider);
+    });
+  }
+
+  void _handleTabSelection() {
+    final UserProvider userProvider = Provider.of(context,listen: false);
     final JobCardProvider jobCardProvider = Provider.of(context,listen: false);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -63,6 +72,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         elevation: 0,
         leading: IconButton(icon: Icon(LineAwesomeIcons.bars, color: APP_WHITE_COLOR,size: ICON_SIZE,),onPressed: ()=>showDrawer(context)),
         actions: [
+          IconButton(icon: Icon(LineAwesomeIcons.refresh,color: APP_WHITE_COLOR,size: ICON_SIZE,),onPressed: ()=>jobCardProvider.initData(userProvider),),
           IconButton(icon: Icon(LineAwesomeIcons.bell,color: APP_WHITE_COLOR,size: ICON_SIZE,),onPressed: ()=>showDrawer(context),)
         ],
         bottom: PreferredSize(
@@ -117,6 +127,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 indicatorSize: TabBarIndicatorSize.label,
                 isScrollable: true,
                 unselectedLabelColor: APP_BLACK_COLOR,
+                onTap: (x){
+                  jobCardProvider.initData(userProvider);
+                },
               ),
               SizedBox(height: 12,)
             ],
@@ -232,4 +245,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   showDrawer(BuildContext context) {
     _drawerKey.currentState.openDrawer();
   }
+
+
 }

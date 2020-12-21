@@ -32,8 +32,14 @@ class _PauseRequestItemState extends State<PauseRequestItem> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListTile(
-            title: Text('${widget.model.pauseItemModel.make} ${widget.model.pauseItemModel.model}',style: AppFontStyle.regularTextStyle(APP_BLACK_COLOR),),
-            subtitle: Text('${widget.model.pauseItemModel.regNo}', style: AppFontStyle.labelTextStyle(APP_BLACK_COLOR),),
+            title: Text('${widget.model.taskModel.name}',style: AppFontStyle.regularTextStyle(APP_BLACK_COLOR),),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('${widget.model.pauseItemModel.make} ${widget.model.pauseItemModel.model}',style: AppFontStyle.labelTextStyle(APP_BLACK_COLOR),),
+                Text('${widget.model.pauseItemModel.regNo}', style: AppFontStyle.labelTextStyle(APP_BLACK_COLOR),),
+              ],
+            ),
             trailing:  Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -50,7 +56,7 @@ class _PauseRequestItemState extends State<PauseRequestItem> {
             child: Row(
               children: [
                 Text('Reason : ', style: AppFontStyle.labelTextStyle2(APP_BLACK_COLOR),),
-                Text('${widget.model.pauseLogModel.reason}',  style: AppFontStyle.labelTextStyle2(APP_BLACK_COLOR))
+                Text('${widget.model.pauseLogModel!=null?widget.model.pauseLogModel.reason:"No reason"}',  style: AppFontStyle.labelTextStyle2(APP_BLACK_COLOR))
               ],
             ),
           ),

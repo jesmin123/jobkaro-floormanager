@@ -4,7 +4,6 @@ import 'package:job_karo_floor_manager/constants/colors.dart';
 import 'package:job_karo_floor_manager/constants/dimen.dart';
 import 'package:job_karo_floor_manager/model/PauseTaskModel.dart';
 import 'package:job_karo_floor_manager/provider/job_card_provider.dart';
-import 'package:job_karo_floor_manager/provider/user_provider.dart';
 import 'package:job_karo_floor_manager/ui/widget/pause_request_item.dart';
 import 'package:provider/provider.dart';
 

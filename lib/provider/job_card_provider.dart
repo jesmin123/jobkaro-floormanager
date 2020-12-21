@@ -189,7 +189,11 @@ class JobCardProvider extends ChangeNotifier{
       if(value.getStatus()){
         List<dynamic> pausedTasks = value.data['paused_tasks'];
         pausedTasks.forEach((element) {
-            pauseRequestsTemp.add(PauseTaskModel.fromJSON(element));
+          PauseTaskModel model = PauseTaskModel.fromJSON(element);
+          if(model!=null){
+            pauseRequestsTemp.add(model);
+          }
+
         });
       }
       pauseRequests = pauseRequestsTemp;

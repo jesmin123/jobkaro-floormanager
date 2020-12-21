@@ -76,7 +76,7 @@ class NewtaskProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future <RespObj> CreateRequest(String model, String make, String regNo, String customerName, String customerContact, String DMS, String ERP, String comment, UserProvider userProvider)async {
+  Future <RespObj> createRequest(String model, String make, String regNo, String customerName, String customerContact, String DMS, String ERP, String comment, UserProvider userProvider)async {
     String route = '';
     isrequestSumitting = true;
     List<Map> tasks = [];

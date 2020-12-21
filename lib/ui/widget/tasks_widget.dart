@@ -3,13 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:job_karo_floor_manager/constants/app_font_style.dart';
 import 'package:job_karo_floor_manager/constants/colors.dart';
 import 'package:job_karo_floor_manager/constants/dimen.dart';
-import 'package:job_karo_floor_manager/constants/strings.dart';
 import 'package:job_karo_floor_manager/provider/job_card_provider.dart';
 import 'package:provider/provider.dart';
 import '../../model/JobModel.dart';
 
 class TasksWidget extends StatefulWidget {
-  JobModel item;
+  final JobModel item;
 
   TasksWidget(this.item);
 

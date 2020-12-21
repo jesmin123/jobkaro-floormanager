@@ -1,5 +1,5 @@
 
-
+import 'package:job_karo_floor_manager/model/TaskModel.dart';
 import 'package:job_karo_floor_manager/model/TeamModel.dart';
 
 class PauseTaskModel{
@@ -16,6 +16,7 @@ class PauseTaskModel{
   PauseLogModel pauseLogModel;
   PauseItemModel pauseItemModel;
   TeamModel technician;
+  TaskModel taskModel;
 
   PauseTaskModel({
       this.id,
@@ -30,7 +31,8 @@ class PauseTaskModel{
       this.overtime,
       this.pauseLogModel,
     this.pauseItemModel,
-    this.technician
+    this.technician,
+    this.taskModel
   });
 
   factory PauseTaskModel.fromJSON(Map<String,dynamic> json){
@@ -38,12 +40,14 @@ class PauseTaskModel{
       PauseLogModel pauseLogModel = PauseLogModel.fromJSON(json["pause_log"]);
       PauseItemModel pauseItemModel = PauseItemModel.fromJSON(json['request']);
       TeamModel teamModel= TeamModel.fromJSON(json['technician']);
+      TaskModel taskModel= TaskModel.fromJSON(json['job']);
+
       return PauseTaskModel(
         startTime: json['start_time'],id: json['id'],status: json['status'],
         taskDuration: json['task_duration'],pauseDuration: json['pause_duration'],
         endTime: json['end_time'],jobId: json['job_id'],overtime: json['over_time'],
         pauseLogID: json['pause_log_id'],pauseLogModel: pauseLogModel,requestID: json['request_id'],
-        pauseItemModel: pauseItemModel,technician: teamModel
+        pauseItemModel: pauseItemModel,technician: teamModel,taskModel:taskModel
       );
     }catch(ex){
       print(ex);

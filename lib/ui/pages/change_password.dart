@@ -4,7 +4,6 @@ import 'package:job_karo_floor_manager/constants/app_font_style.dart';
 import 'package:job_karo_floor_manager/constants/colors.dart';
 import 'package:job_karo_floor_manager/constants/dimen.dart';
 import 'package:job_karo_floor_manager/constants/strings.dart';
-import 'package:job_karo_floor_manager/model/RespObj.dart';
 import 'package:job_karo_floor_manager/provider/user_provider.dart';
 import 'package:job_karo_floor_manager/utils/LoaderUtils.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +15,6 @@ class ChangePasswordPage extends StatefulWidget {
 
 class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
-  TextEditingController _oldPasswordController = TextEditingController();
   TextEditingController _newPasswordController = TextEditingController();
   TextEditingController _conformPasswordController = TextEditingController();
 
@@ -256,9 +254,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                             CircularProgressIndicator(
 
                             );
-                            Navigator.pushNamed(
-                                context, LOGIN_PAGE);
-                          };
+                            Navigator.pushNamed(context, LOGIN_PAGE);
+                          }
                         },
                         child: Text("Yes",
                             style: AppFontStyle
