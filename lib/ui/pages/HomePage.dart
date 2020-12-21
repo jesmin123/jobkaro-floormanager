@@ -3,7 +3,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_greetings/flutter_greetings.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:job_karo_floor_manager/constants/dimen.dart';
 import 'package:job_karo_floor_manager/constants/strings.dart';
 import 'package:job_karo_floor_manager/provider/job_card_provider.dart';
@@ -53,7 +52,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   void _handleTabSelection() {
     final UserProvider userProvider = Provider.of(context,listen: false);
-    final NotificationProvider notificationProvider = Provider.of(context,listen: false);
     final JobCardProvider jobCardProvider = Provider.of(context,listen: false);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {

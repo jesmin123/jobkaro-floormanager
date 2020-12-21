@@ -8,7 +8,6 @@ import 'package:job_karo_floor_manager/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../utils/LoaderUtils.dart';
-import 'package:progress_dialog/progress_dialog.dart';
 
 
 class LoginPage extends StatefulWidget {

@@ -64,7 +64,7 @@ class UserProvider extends ChangeNotifier{
     saveLoginLocal("");
     api.postData(route, mBody: jsonData,header: user.jwt).then((value){
       if(value.getStatus()){
-        dynamic data = value.data;
+        //todo implement logic here
       }
     });
 

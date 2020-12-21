@@ -4,14 +4,12 @@ import 'package:job_karo_floor_manager/constants/colors.dart';
 import 'package:job_karo_floor_manager/constants/dimen.dart';
 import 'package:job_karo_floor_manager/constants/strings.dart';
 import 'package:job_karo_floor_manager/provider/job_card_provider.dart';
-import 'package:job_karo_floor_manager/ui/pages/job_details_page.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import '../../model/ServicerequestModel.dart';
 
 class AssignedItem extends StatefulWidget {
-  ServiceRequestModel item;
+  final ServiceRequestModel item;
 
   AssignedItem(this.item);
 

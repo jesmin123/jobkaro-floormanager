@@ -4,12 +4,11 @@ import 'package:job_karo_floor_manager/constants/app_font_style.dart';
 import 'package:job_karo_floor_manager/constants/colors.dart';
 import 'package:job_karo_floor_manager/constants/dimen.dart';
 import 'package:job_karo_floor_manager/model/ServicerequestModel.dart';
-import 'package:line_icons/line_icons.dart';
 
 
 class FinishedItem extends StatefulWidget {
 
-  ServiceRequestModel service;
+  final ServiceRequestModel service;
 
   FinishedItem(this.service);
 
