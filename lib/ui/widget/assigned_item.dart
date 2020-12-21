@@ -28,11 +28,11 @@ class _AssignedItemState extends State<AssignedItem> {
         Navigator.pushNamed(context, JOB_DETAILS_PAGE);
         },
       isThreeLine: true,
-        title: Text("${widget.item.make} ${widget.item.model} ",style: AppFontStyle.regularTextStyle(APP_BLACK_COLOR),),
+        title: Text(widget.item.regNo,style: AppFontStyle.regularTextStyle(APP_BLACK_COLOR),),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(widget.item.regNo, style: AppFontStyle.labelTextStyle(APP_BLACK_COLOR),),
+            Text('${widget.item.make} ${widget.item.model}', style: AppFontStyle.labelTextStyle(APP_BLACK_COLOR),),
             SizedBox(height: 4),
             Text('${widget.item.assignedTechnicians.length} $ASSIGNED', style: AppFontStyle.labelTextStyle(APP_BLACK_COLOR),)
           ],

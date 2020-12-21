@@ -167,10 +167,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     RaisedButton(
                       onPressed: () async {
                         if(_formKey.currentState.validate()){
-                          bool response = await userProvider.changePassword(_conformPasswordController.text) ;
                           Loader.getLoader(context).show();
-                          Future.delayed(Duration(seconds: 3)).then((value) {
-                            Loader.getLoader(context).hide().whenComplete(() {
+                          bool response = await userProvider.changePassword(_conformPasswordController.text) ;
+                          Loader.getLoader(context).hide();
                               if(response){
                                 return showDialogBox();
                               }
@@ -186,10 +185,6 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                   fontSize: 16.0,
                                 );
                               }
-
-                            });
-                          });
-
 
                         }
                       },

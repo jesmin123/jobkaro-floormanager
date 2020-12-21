@@ -159,9 +159,8 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                 child: RaisedButton(
                   onPressed: () async {
                     Loader.getLoader(context).show();
-                    Future.delayed(Duration(seconds: 3)).then((value) {
-                      Loader.getLoader(context).hide().whenComplete(() async {
                         bool status = await jobCardProvider.markServiceAsCompleted(userProvider.user.jwt , service.id);
+                    Loader.getLoader(context).hide();
                         if(status){
                           Toast('Case Closed Successfully');
                           Navigator.pop(context);
@@ -169,9 +168,6 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                         else{
                           Toast('Failed to Complete Case');
                         }
-                      });
-                    });
-
 
                   },
                   shape: RoundedRectangleBorder(

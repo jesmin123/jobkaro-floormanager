@@ -86,28 +86,34 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(text:YonoGreetings.showGreetings()+", \n",style: AppFontStyle.regularTextStyle(APP_BLACK_COLOR)),
-                          TextSpan(text:' \t \t  \t ' + userProvider.user.name,style: AppFontStyle.regularHeadingTextStyle(APP_WHITE_COLOR)),
-                        ]
+                    Flexible(
+                      flex: 3,
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(text:YonoGreetings.showGreetings()+", \n",style: AppFontStyle.regularTextStyle(APP_BLACK_COLOR)),
+                            TextSpan(text:' \t \t  \t ' + userProvider.user.name,style: AppFontStyle.regularHeadingTextStyle(APP_WHITE_COLOR)),
+                          ]
+                        ),
                       ),
                     ),
-                    DigitalClock(
-                      digitAnimationStyle: Curves.bounceIn,
-                      hourMinuteDigitDecoration: BoxDecoration(
-                        color: PRIMARY_COLOR,
+                    Flexible(
+                      flex: 2,
+                      child: DigitalClock(
+                        digitAnimationStyle: Curves.bounceIn,
+                        hourMinuteDigitDecoration: BoxDecoration(
+                          color: PRIMARY_COLOR,
+                        ),
+                        secondDigitDecoration:  BoxDecoration(
+                          color: PRIMARY_COLOR,
+                        ),
+                        is24HourTimeFormat: false,
+                        areaDecoration: BoxDecoration(
+                          color: PRIMARY_COLOR,
+                        ),
+                        hourMinuteDigitTextStyle: AppFontStyle.regularHeadingTextStyle(APP_WHITE_COLOR),
+                        amPmDigitTextStyle: AppFontStyle.headingTextStyle(APP_WHITE_COLOR),
                       ),
-                      secondDigitDecoration:  BoxDecoration(
-                        color: PRIMARY_COLOR,
-                      ),
-                      is24HourTimeFormat: false,
-                      areaDecoration: BoxDecoration(
-                        color: PRIMARY_COLOR,
-                      ),
-                      hourMinuteDigitTextStyle: AppFontStyle.regularHeadingTextStyle(APP_WHITE_COLOR),
-                      amPmDigitTextStyle: AppFontStyle.headingTextStyle(APP_WHITE_COLOR),
                     ),
                   ],
                 ),

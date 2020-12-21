@@ -37,6 +37,9 @@ class ServiceRequestModel{
       });
 
       List<dynamic> assignedJson = json['technicians'];
+      if(json.containsKey("technicians_assigned")){
+        assignedJson = json['technicians_assigned'];
+      }
       List<TeamModel> assingedJsonTemp = new List();
       assignedJson.forEach((element) {
         assingedJsonTemp.add(TeamModel.fromJSON(element));

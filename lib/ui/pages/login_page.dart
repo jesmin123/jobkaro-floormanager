@@ -130,15 +130,11 @@ class _LoginPageState extends State<LoginPage> {
                       RaisedButton(
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
-                            RespObj response = await userProvider.login(
-                                mobNo: _mobNoController.text, password: _passwordController.text);
+                            Loader.getLoader(context).show();
+                            RespObj response = await userProvider.login(mobNo: _mobNoController.text, password: _passwordController.text);
+                          Loader.getLoader(context).hide();
                             if (response.getStatus()) {
-                              Loader.getLoader(context).show();
-                              Future.delayed(Duration(seconds: 3)).then((value) {
-                                Loader.getLoader(context).hide().whenComplete(() {
-                                  Navigator.pushNamed(context, HOME_PAGE);
-                                });
-                              });
+                              Navigator.pushNamed(context, HOME_PAGE);
                             } else {
                               Fluttertoast.showToast(
                                 msg: 'Mobile No. or Password is Wrong',

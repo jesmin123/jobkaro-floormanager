@@ -269,17 +269,11 @@ class _AddNewItemState extends State<AddNewItem> {
                 child: RaisedButton(
                   onPressed: () async {
                     if (_formKey.currentState.validate()) {
-
+                      Loader.getLoader(context).show();
                       if(newTaskProvider.selectedEmployees.length==0 || newTaskProvider.selectedTask.length==0){
                         Toast('Missing Team or Task');
                         return;
                       }
-
-                      Loader.getLoader(context).show();
-
-                      Loader.getLoader(context).show();
-                      Future.delayed(Duration(seconds: 3)).then((value) {
-                        Loader.getLoader(context).hide().whenComplete(() async {
                           RespObj response = await newTaskProvider.createRequest(
                               _modelController.text,
                               _makeController.text,
@@ -291,6 +285,7 @@ class _AddNewItemState extends State<AddNewItem> {
                               _commentController.text,
                               userProvider
                           );
+                          Loader.getLoader(context).hide();
                           if(response.getStatus()){
                             jobCardProvider.getAllServiceRequests(userProvider.user.jwt);
                             return showDialog(
@@ -336,10 +331,6 @@ class _AddNewItemState extends State<AddNewItem> {
                             );
                           }
                           else Toast("Something wrong in our details");
-
-                        });
-                      });
-
 
 
                     }
