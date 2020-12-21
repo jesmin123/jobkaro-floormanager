@@ -44,8 +44,7 @@ class _AddNewItemState extends State<AddNewItem> {
   ]);
   final multiValidator = MultiValidator([
     RequiredValidator(errorText: 'this field is required'),
-    MinLengthValidator(10, errorText: 'Phone Number must be 10 digits'),
-    PatternValidator('0-9', errorText: 'Phone Number must be in digits')
+    PatternValidator('a-zA-Z ', errorText: 'Phone Number must be in digits')
   ]);
 
   get checkboxValue => null;
@@ -105,16 +104,17 @@ class _AddNewItemState extends State<AddNewItem> {
                 controller: _customerNameController,
                 decoration: InputDecoration(labelText: "Customer Name*"),
                 inputFormatters: [],
-                validator:(value){
-                   final  validCharacters = RegExp('a-zA-Z');
-                   if(!(validCharacters.hasMatch(value)))
-                     {
-                       return 'Special characters are not allowed';
-                     }
-                   else{
-                     return null;
-                   }
-                }
+                validator: singleValidator
+                  // TODO implement validator for special characters
+                    // (value) {
+                  // final validCharacters = RegExp(r'a-zA-Z +$');
+                  //if (!(validCharacters.hasMatch(value))) {
+                   // return 'Special characters are not allowed';
+                 // }
+                  // else {
+                   // return null;
+                 // }
+               // }
               ),
               SizedBox(height: 14),
               TextFormField(
@@ -122,13 +122,13 @@ class _AddNewItemState extends State<AddNewItem> {
                 controller: _customerContactController,
                 decoration: InputDecoration(labelText: "Customer Contact*", prefixText: "+91"),
                 keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.digitsOnly],
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly],
                 validator: (value){
                   if(value.isEmpty){
                     return 'this field is requried';
                   }
-                  else if(value!=10){
+                  else if(value.length != 10){
                     return 'Phone Number must be 10 digits';
                   }
                   return null;
