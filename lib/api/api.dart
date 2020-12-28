@@ -38,8 +38,7 @@ class ApiUtils {
     if(response.statusCode==200){
       return RespObj.fromJSON(json.decode(response.body));
     }else{
-      return RespObj("0",msg: 'Server Unavailable');
-
+      return RespObj.fromJSON(json.decode(response.body));
     }
     }catch(e){
       print(e.toString());

@@ -60,8 +60,7 @@ class UserProvider extends ChangeNotifier{
       "function" : "logout"
     };
     String jsonData = jsonEncode(logoutData);
-
-    saveLoginLocal("");
+    saveLoginLocal(null);
     api.postData(route, mBody: jsonData,header: user.jwt).then((value){
       if(value.getStatus()){
         //todo implement logic here

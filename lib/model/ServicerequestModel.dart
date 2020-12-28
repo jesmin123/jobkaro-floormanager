@@ -11,6 +11,9 @@ class ServiceRequestModel{
   String customerContact;
   String timeofCreation;
   String timeofCompletion;
+  String dms;
+  String comment;
+  String erp;
   String status;
   List<JobModel> jobModel = new List();
   List<TeamModel> assignedTechnicians = new List();
@@ -26,28 +29,46 @@ class ServiceRequestModel{
       this.timeofCompletion,
       this.status,
       this.jobModel,
+    this.comment,
+    this.dms,
+    this.erp,
   this.assignedTechnicians});
 
   factory ServiceRequestModel.fromJSON(Map<String,dynamic> json){
     try{
       List<dynamic>  jobJson = json['tasks'];
       List<JobModel> jobModelTemp = new List();
-      jobJson.forEach((element) {
-        jobModelTemp.add(JobModel.fromJSON(element));
-      });
+      if(jobJson!=null){
+        jobJson.forEach((element) {
+          JobModel jobModel = JobModel.fromJSON(element);
+          if(jobModel!=null){
+            jobModelTemp.add(jobModel);
+          }
+
+        });
+      }
+
 
       List<dynamic> assignedJson = json['technicians'];
       if(json.containsKey("technicians_assigned")){
         assignedJson = json['technicians_assigned'];
       }
       List<TeamModel> assingedJsonTemp = new List();
-      assignedJson.forEach((element) {
-        assingedJsonTemp.add(TeamModel.fromJSON(element));
-      });
+
+      if(assignedJson!=null){
+        assignedJson.forEach((element) {
+          TeamModel teamModel = TeamModel.fromJSON(element);
+          if(teamModel!=null){
+            assingedJsonTemp.add(teamModel);
+          }
+
+        });
+      }
 
       return ServiceRequestModel(
           status: json['status'],id: json['id'],customerName: json['customer_name'],
           customerContact: json['contact_number'],regNo: json['reg_no'],make: json['make'],
+        dms: json['dms'],erp: json['erp'],comment: json['comment'],
         model:  json['model'],timeofCompletion: json['time_of_completion'],timeofCreation: json['time_of_creation'],
         jobModel: jobModelTemp, assignedTechnicians: assingedJsonTemp
       );

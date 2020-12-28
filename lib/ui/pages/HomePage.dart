@@ -9,6 +9,8 @@ import 'package:job_karo_floor_manager/provider/job_card_provider.dart';
 import 'package:job_karo_floor_manager/provider/notification_provider.dart';
 import 'package:job_karo_floor_manager/provider/user_provider.dart';
 import 'package:job_karo_floor_manager/ui/tab_views/addnew_tab.dart';
+import 'package:job_karo_floor_manager/ui/tab_views/overtime_tasks_tab.dart';
+import 'package:job_karo_floor_manager/ui/tab_views/reworks_tab.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:slide_digital_clock/slide_digital_clock.dart';
@@ -35,7 +37,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   void initState() {
     super.initState();
     getSupportingData();
-    _tabController = new TabController(vsync: this, length:4);
+    _tabController = new TabController(vsync: this, length:6);
     _tabController.addListener(_handleTabSelection);
   }
 
@@ -92,7 +94,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                         text: TextSpan(
                           children: [
                             TextSpan(text:YonoGreetings.showGreetings()+", \n",style: AppFontStyle.regularTextStyle(APP_BLACK_COLOR)),
-                            TextSpan(text:' \t \t  \t ' + userProvider.user.name,style: AppFontStyle.regularHeadingTextStyle(APP_WHITE_COLOR)),
+                            TextSpan(text:' \t \t  \t ' + "${userProvider.user!=null?userProvider.user.name:" "}",style: AppFontStyle.regularHeadingTextStyle(APP_WHITE_COLOR)),
                           ]
                         ),
                       ),
@@ -124,6 +126,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   Tab(text: ASSIGNED,),
                   Tab(text: PAUSE_REQUEST,),
                   Tab(text: FINISHED,),
+                  Tab(text: OVER_TIME,),
+                  Tab(text: REWORKS,),
                 ],
                 labelStyle: AppFontStyle.regularTextStyle(APP_BLACK_COLOR),
                 controller: _tabController,
@@ -162,10 +166,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             ),
             Column(
               children: [
-                Text(userProvider.user.name, style: AppFontStyle.headingTextStyle(PRIMARY_COLOR, textSize: 20.0),),
+                Text("${userProvider.user!=null?userProvider.user.name:" "}", style: AppFontStyle.headingTextStyle(PRIMARY_COLOR, textSize: 20.0),),
                 Text('Field Manager', style: AppFontStyle.labelTextStyle3(APP_GREY_COLOR),),
-                Text('Emp Code :'+ userProvider.user.empCode, style: AppFontStyle.labelTextStyle3(APP_GREY_COLOR),),
-                Text('Mobile No :'+ userProvider.user.mobile, style: AppFontStyle.labelTextStyle3(APP_GREY_COLOR),),
+                Text('Emp Code :'+ "${userProvider.user!=null?userProvider.user.empCode:" "}", style: AppFontStyle.labelTextStyle3(APP_GREY_COLOR),),
+                Text('Mobile No :'+ "${userProvider.user!=null?userProvider.user.mobile:" "}", style: AppFontStyle.labelTextStyle3(APP_GREY_COLOR),),
               ],
             ),
             ListTile(
@@ -230,7 +234,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 AddnewTab(),
                 AssignedTab(),
                 PauseRequestTab(),
-                FinishedTab()
+                FinishedTab(),
+                OvertimeTasksFragment(),
+                ReworksTab()
               ],
               controller: _tabController,
             ),

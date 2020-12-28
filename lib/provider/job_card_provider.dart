@@ -1,8 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:job_karo_floor_manager/api/api.dart';
+import 'package:job_karo_floor_manager/model/JobModel.dart';
+import 'package:job_karo_floor_manager/model/OverTimetaskModel.dart';
 import 'package:job_karo_floor_manager/model/PauseTaskModel.dart';
 import 'package:job_karo_floor_manager/model/RespObj.dart';
+import 'package:job_karo_floor_manager/model/ReworksModel.dart';
 import 'package:job_karo_floor_manager/model/ServicerequestModel.dart';
 import 'package:job_karo_floor_manager/model/TaskModel.dart';
 import 'package:job_karo_floor_manager/model/TeamModel.dart';
@@ -16,6 +19,8 @@ class JobCardProvider extends ChangeNotifier{
     getAllTasks(userProvider.user.jwt);
     getAllPauseRequest(userProvider.user.jwt);
     getAllServiceRequests(userProvider.user.jwt);
+    getOverTimeJobs(userProvider.user.jwt);
+    getReworkTasks(userProvider.user.jwt);
   }
 
   List<TeamModel> _allEmployees = new List();
@@ -164,6 +169,85 @@ class JobCardProvider extends ChangeNotifier{
     notifyListeners();
   }
 
+  updateSelectedService(String jwt) async {
+
+    String route = '';
+
+    List<Map> tasks = [];
+    _selectedService.jobModel.forEach((element) {
+      if(element.synced==-1)
+        tasks.add({'job_id':element.task.id});
+    });
+
+    List<Map> technicians = [];
+    _selectedService.assignedTechnicians.forEach((element) {
+      if(element.synced==-1)
+        technicians.add({'technician_id':element.id});
+    });
+
+    Map sendData =
+      {
+        "function":"edit_request",
+        "request_id": selectedService.id,
+        "model": selectedService.model,
+        "make": selectedService.make,
+        "reg_no": selectedService.regNo,
+        "customer_name": selectedService.customerName,
+        "contact_number":selectedService.customerContact,
+        "dms":selectedService.dms,
+        "erp":selectedService.erp,
+        "comment":selectedService.comment,
+        "tasks":tasks,
+        "technicians": technicians,
+    };
+
+    String jsonData = jsonEncode(sendData);
+
+    RespObj response = await api.postData(route, mBody: jsonData,header: jwt);
+    return response;
+
+  }
+
+  updateServiceJobs(String jwt,List<TaskModel> tasks) async {
+
+    String route = '';
+    List<Map> newTasks = [];
+    tasks.forEach((element) {
+        if(element.selected){
+          selectedService.jobModel.add(JobModel(id: "-1",endTime: null,pauseDuration: null,startTime: null,taskDuration: element.minute,status: "0",task: element,overTime: "0",synced: -1,techinican: null));
+          newTasks.add({'job_id':element.id});
+      }
+
+    });
+
+    List<Map> technicians = [];
+    _selectedService.assignedTechnicians.forEach((element) {
+      if(element.synced==-1)
+        technicians.add({'technician_id':element.id});
+    });
+
+    Map sendData =
+    {
+      "function":"edit_request",
+      "request_id": selectedService.id,
+      "model": selectedService.model,
+      "make": selectedService.make,
+      "reg_no": selectedService.regNo,
+      "customer_name": selectedService.customerName,
+      "contact_number":selectedService.customerContact,
+      "dms":selectedService.dms,
+      "erp":selectedService.erp,
+      "comment":selectedService.comment,
+      "tasks":newTasks,
+      "technicians": technicians,
+    };
+
+    String jsonData = jsonEncode(sendData);
+
+    RespObj response = await api.postData(route, mBody: jsonData,header: jwt);
+    return response;
+
+  }
 
   // ------------------------Pause Request-------------------------
   List<PauseTaskModel> _pauseRequests = [];
@@ -227,6 +311,86 @@ class JobCardProvider extends ChangeNotifier{
       getAllPauseRequest(jwt);
     }
     return response.getStatus();
+  }
+
+  List<OverTimeTaskModel> _overtimeTasks = [];
+
+
+  List<OverTimeTaskModel> get overtimeTasks => _overtimeTasks;
+
+  set overtimeTasks(List<OverTimeTaskModel> value) {
+    _overtimeTasks = value;
+    notifyListeners();
+  }
+
+  void getOverTimeJobs(String jwt) {
+
+    String route ='';
+    Map<String, dynamic> sendData ={
+      'function' : 'over_time_tasks'
+    };
+
+    List<OverTimeTaskModel> overtimeTasksTemp = [];
+
+    String jsonData = jsonEncode(sendData);
+    api.postData(route, header: jwt,mBody: jsonData).then((value){
+      if(value.getStatus()){
+        List<dynamic> overtimeJobs = value.data['over_time_tasks'];
+        overtimeJobs.forEach((element) {
+          overtimeTasksTemp.add(OverTimeTaskModel.fromJSON(element));
+        });
+      }
+
+      overtimeTasks = overtimeTasksTemp;
+
+    });
+  }
+
+
+  Future<RespObj> addToReworkTasks(String jwt,String taskId) async {
+    String route = "";
+
+    Map sendData = {
+      "function":"rework_task",
+      "task_id":"$taskId"
+    };
+
+    String json = jsonEncode(sendData);
+    RespObj respObj =  await api.postData(route,mBody: json,header: jwt);
+
+    return respObj;
+  }
+
+  List<ReworksModel> _reworks = [];
+
+
+  List<ReworksModel> get reworks => _reworks;
+
+  set reworks(List<ReworksModel> value) {
+    _reworks = value;
+    notifyListeners();
+  }
+
+  void getReworkTasks(String jwt) {
+    String route = '';
+    Map sendData = {
+      "function":"reworks"
+    };
+
+    String jsonData = jsonEncode(sendData);
+    List<ReworksModel> reworksTemp = [];
+
+    api.postData(route, header: jwt,mBody: jsonData).then((value){
+      if(value.getStatus()){
+        List<dynamic> overtimeJobs = value.data['reworks'];
+        overtimeJobs.forEach((element) {
+          reworksTemp.add(ReworksModel.fromJSON(element));
+        });
+      }
+
+      reworks = reworksTemp;
+
+    });
   }
 
 }

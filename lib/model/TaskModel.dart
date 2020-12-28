@@ -7,6 +7,7 @@ class TaskModel{
   String id;
   TimeOfDay elaspedTime;
   String minute;
+  bool _selected;
 
   TaskModel({
       this.status, this.id, this.name, this.elaspedTime, this.minute,});
@@ -21,4 +22,9 @@ class TaskModel{
    }
   }
 
+  bool get selected => _selected!=null?_selected:false;
+
+  set selected(bool value) {
+    _selected = value;
+  }
 }

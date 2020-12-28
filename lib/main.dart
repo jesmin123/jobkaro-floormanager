@@ -5,6 +5,7 @@ import 'package:job_karo_floor_manager/provider/notification_provider.dart';
 import 'package:job_karo_floor_manager/provider/user_provider.dart';
 import 'package:job_karo_floor_manager/ui/pages/HomePage.dart';
 import 'package:job_karo_floor_manager/ui/pages/change_password.dart';
+import 'package:job_karo_floor_manager/ui/pages/finished_detail_page.dart';
 import 'package:job_karo_floor_manager/ui/pages/job_details_page.dart';
 import 'package:job_karo_floor_manager/ui/pages/login_page.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +19,7 @@ Future<void> main() async {
   if(isLoggedIN){
     initialRoute =  HOME_PAGE;
   }
+  await Future.delayed(Duration(seconds: 1));
   runApp(MyApp(initialRoute: initialRoute,));
 
 }
@@ -32,7 +34,8 @@ class MyApp extends StatelessWidget {
       HOME_PAGE: (context)=> HomePage(),
       JOB_DETAILS_PAGE :(context)=> JobDetailsPage(),
       LOGIN_PAGE:(context)=>LoginPage(),
-      CHANGE_PASSWORD_PAGE:(context)=> ChangePasswordPage()
+      CHANGE_PASSWORD_PAGE:(context)=> ChangePasswordPage(),
+      FINISHED_DETAILS_PAGE:(context)=> FinishedDetailPage(),
   };
 
   @override

@@ -7,6 +7,7 @@ const DETAIL_PAGE = 'detailPage';
 const JOB_DETAILS_PAGE = 'jobDetailsPage';
 const LOGIN_PAGE ='loginPage';
 const CHANGE_PASSWORD_PAGE = 'changePasswordPage';
+const FINISHED_DETAILS_PAGE = 'finishedDetailPage';
 // Tab Names
 
 const PENDING = 'Add New';
@@ -14,6 +15,8 @@ const ASSIGNED = 'Assigned';
 const PAUSE_REQUEST = 'Pause Requests';
 const FINISHED = 'Finished';
 const JOB_DETAILS = 'Job Details';
+const OVERTIME = 'Overtime';
+const REWORKS = 'Reworks';
 
 const FINISHED_ = 'finished';
 const ON_GOING = 'on-going';
