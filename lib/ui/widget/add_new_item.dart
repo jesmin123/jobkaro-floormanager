@@ -50,6 +50,8 @@ class _AddNewItemState extends State<AddNewItem> {
 
   get checkboxValue => null;
 
+  FocusNode f1 = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     final NewtaskProvider newTaskProvider = Provider.of(context);
@@ -148,6 +150,7 @@ class _AddNewItemState extends State<AddNewItem> {
               ),
               SizedBox(height: 14),
               TextFormField(
+                focusNode: f1,
                 controller: _commentController,
                 decoration: InputDecoration(labelText: 'Comment*'),
                 validator: singleValidator,
@@ -177,6 +180,7 @@ class _AddNewItemState extends State<AddNewItem> {
                             ),
                             child: InkWell(
                               onTap: () {
+                                f1.unfocus();
                                 showEmployeeDialog();
                               },
                               child: Column(

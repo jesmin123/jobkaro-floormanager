@@ -71,11 +71,14 @@ class UserProvider extends ChangeNotifier{
 
   Future<void> saveLoginLocal(String userData) async {
     SharedPreferences sh = await SharedPreferences.getInstance();
+    sh.setString('login-timestamp', DateTime.now().toString());
     sh.setString("user", userData);
   }
 
   Future<bool> checkLoginLocal() async {
     SharedPreferences sh = await SharedPreferences.getInstance();
+    String loginDtTimestamp =  sh.getString('login-timestamp',);
+
     String userString = sh.getString("user");
     if(userString==null){
       return false;
@@ -87,7 +90,21 @@ class UserProvider extends ChangeNotifier{
 
     user = userTemp;
     isLoggedIn = true;
+    if(loginDtTimestamp!=null){
+      DateTime dateTimeLogin = DateTime.parse(loginDtTimestamp);
+      int hrsElpased = DateTime.now().difference(dateTimeLogin).inHours;
+      if(hrsElpased<20){
+        return true;
+      }
+      else{
+        logout();
+        return false;
+      }
+    }
     return true;
+
+
+
   }
 
 

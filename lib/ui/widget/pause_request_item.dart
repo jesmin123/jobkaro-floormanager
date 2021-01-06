@@ -46,8 +46,8 @@ class _PauseRequestItemState extends State<PauseRequestItem> {
                 IconButton(onPressed: (){LaunchUtils.makeCall(widget.model.technician.mobile);},icon: Icon(LineIcons.phone, size: ICON_SIZE,color: PRIMARY_COLOR,),focusColor: PRIMARY_COLOR,),
                 SizedBox(width:LINE_HEIGHT*0.1),
                 widget.model.status=="5"?IconButton(onPressed: (){jobCardProvider.pauseTask(userProvider.user.jwt, widget.model.id);},
-                  icon: Icon(LineIcons.play_circle_o, size: ICON_SIZE,color: PRIMARY_COLOR,),):
-                IconButton(onPressed: (){jobCardProvider.resumeTask(userProvider.user.jwt, widget.model.id);}, icon: Icon(Icons.pause_circle_outline, size: ICON_SIZE,color: PRIMARY_COLOR,),),
+                  icon: Icon(Icons.pause_circle_outline, size: ICON_SIZE,color: PRIMARY_COLOR,),):
+                IconButton(onPressed: (){jobCardProvider.resumeTask(userProvider.user.jwt, widget.model.id);}, icon: Icon(LineIcons.play_circle_o, size: ICON_SIZE,color: PRIMARY_COLOR,),),
               ],
             ),
           ),

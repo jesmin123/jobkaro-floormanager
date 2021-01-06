@@ -63,7 +63,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                     Padding(
                       padding: const EdgeInsets.only(left: 12),
                       child: service.assignedTechnicians.length==0? Text('No Employee Assigned', style: AppFontStyle.labelTextStyle(APP_BLACK_COLOR),):Container(
-                        height: 110,
+                        height: 140,
                         child: ListView.separated(
                           separatorBuilder: (_,pos)=>SizedBox(width: 8,),
                             itemCount: service.assignedTechnicians.length+1,
