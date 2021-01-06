@@ -29,7 +29,7 @@ class AddNewItem extends StatefulWidget {
 class _AddNewItemState extends State<AddNewItem> {
   
   TextEditingController _modelController = TextEditingController();
-  TextEditingController _makeController = TextEditingController();
+  TextEditingController _makeController = TextEditingController(text: 'Maruti Suzuki');
   TextEditingController _regNoController = TextEditingController();
   TextEditingController _customerNameController = TextEditingController();
   TextEditingController _customerContactController = TextEditingController();
@@ -152,8 +152,8 @@ class _AddNewItemState extends State<AddNewItem> {
               TextFormField(
                 focusNode: f1,
                 controller: _commentController,
-                decoration: InputDecoration(labelText: 'Comment*'),
-                validator: singleValidator,
+                decoration: InputDecoration(labelText: 'Comment'),
+                validator: singleValidator
               ),
               SizedBox(height: 14),
               ListTile(
